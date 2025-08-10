@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment Portal - INTZI</title>
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background: #f8f9ff;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+
+    .payment-container {
+      max-width: 390px;
+      margin: 65px auto 0 auto;
+      background: #dadde1;
+      box-shadow: 0 8px 32px rgba(82, 85, 201, 0.08);
+      border-radius: 18px;
+      padding: 42px 29px 27px 29px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #5f64ec;
+      margin-bottom: 17px;
+      font-weight: 700;
+      font-size: 1.6rem;
+    }
+
+    .payment-form label {
+      font-size: 1.03em;
+      margin-top: 15px;
+      display: block;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .payment-form input {
+      width: 100%;
+      padding: 9px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1.5px solid #e2e6fc;
+      margin-top: 7px;
+      margin-bottom: 11px;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    .upi-section {
+      margin: 13px 0;
+      font-size: 1em;
+      color: #5f64ec;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .upi-btn {
+      background: #5f64ec;
+      color: #fff;
+      padding: 9px 16px;
+      border: none;
+      border-radius: 7px;
+      font-size: 1em;
+      margin-left: 7px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .upi-btn:hover {
+      background: #474cb3;
+    }
+
+    .qr-img {
+      display: block;
+      margin: 14px auto;
+      width: 110px;
+      height: 110px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(95, 100, 236, 0.4);
+    }
+
+    .payment-form button[type="submit"] {
+      background: #5f64ec;
+      color: #fff;
+      border: none;
+      padding: 13px;
+      border-radius: 9px;
+      font-family: inherit;
+      font-size: 1.13em;
+      font-weight: 600;
+      margin-top: 15px;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.19s;
+    }
+
+    .payment-form button[type="submit"]:hover {
+      background: #474cb3;
+    }
+
+    /* Success message styles */
+    #paySuccess {
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    .success-check {
+      color: #18c799;
+      font-size: 4rem;
+      margin-bottom: 16px;
+    }
+
+    .success-msg {
+      font-size: 1.26em;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 13px;
+    }
+
+    .success-desc {
+      color: #555cc3;
+      font-size: 1em;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Payment form container -->
+  <div class="payment-container" id="payForm">
+    <h2>Payment Portal</h2>
+
+    <form class="payment-form" onsubmit="return paymentSuccess();">
+      <label for="cardholderName">Cardholder Name</label>
+      <input type="text" id="cardholderName" name="cardholderName" placeholder="Name" required />
+
+      <label for="cardNumber">Card Number</label>
+      <input type="text" id="cardNumber" name="cardNumber" maxlength="16" placeholder="1234 5678 9012 3456" required pattern="\d{16}" />
+
+      <label for="expiryInput">Expiry (MM/YY)</label>
+      <input type="text" id="expiryInput" name="expiryInput" maxlength="5" placeholder="MM/YY" required />
+
+      <label for="cvv">CVV</label>
+      <input type="password" id="cvv" name="cvv" maxlength="3" placeholder="CVV" required pattern="\d{3}" />
+
+      <div class="upi-section">
+        or
+        <button class="upi-btn" onclick="showQR(); return false;">Pay with UPI</button>
+      </div>
+
+      <div id="upiQR" style="display:none;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=upi://pay?pa=demo@upi&pn=INTZI" class="qr-img" alt="UPI QR Code" />
+        <div style="text-align:center; font-size:0.97em; color:#5f64ec;">Scan to Pay with UPI</div>
+      </div>
+
+      <button type="submit">Pay Now</button>
+    </form>
+  </div>
+
+  <!-- Success message container, hidden initially -->
+  <div id="paySuccess" style="display:none;">
+    <div class="success-check">✓</div>
+    <div class="success-msg">Booking request successful!</div>
+    <div class="success-desc">
+      Your payment was processed.<br />
+      The vendor will contact you soon.
+    </div>
+  </div>
+
+  <!-- JavaScript for interactivity -->
+  <script>
+    // Show the UPI QR code when the button is clicked
+    function showQR() {
+      document.getElementById('upiQR').style.display = 'block';
+    }
+
+    // Auto-formatter for expiry date input (MM/YY)
+    document.getElementById('expiryInput').addEventListener('input', function (e) {
+      let v = e.target.value.replace(/\D/g, ''); // Remove non-digits
+
+      if (v.length >= 2 && v.length < 4 && !e.target.value.includes('/')) {
+        e.target.value = v.slice(0, 2) + '/' + v.slice(2, 4);
+      } else if (v.length === 4) {
+        e.target.value = v.slice(0, 2) + '/' + v.slice(2, 4);
+      }
+    });
+
+    // Function called on form submission to simulate payment success
+    function paymentSuccess() {
+      // Hide form container
+      document.getElementById('payForm').style.display = 'none';
+
+      // Show success message container
+      document.getElementById('paySuccess').style.display = 'block';
+
+      // Prevent actual form submission/reload
+      return false;
+    }
+  </script>
+</body>
+
+</html>

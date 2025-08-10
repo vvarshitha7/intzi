@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vendor Profile - INTZI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: #f8f9ff;
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      color: #222;
+    }
+    .profile-container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #dadde1;
+      box-shadow: 0 8px 28px rgba(82,85,201,0.13);
+      border-radius: 17px;
+      padding: 35px 29px 40px 29px;
+      display: flex;
+      gap: 30px;
+    }
+    @media(max-width:700px) {
+      .profile-container {
+        flex-direction: column;
+        gap: 18px;
+        padding: 17px 4vw;
+      }
+    }
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: #e7ebfa;
+      border: 3.5px solid #5f64ec;
+      object-fit: cover;
+    }
+    .profile-main { flex: 1; }
+    .profile-title {
+      font-weight: 700; font-size: 1.45rem; letter-spacing: .018em;
+    }
+    .profile-cats {
+      font-size: 1em;
+      background: #472fc7aa;
+      color: #ffd878;
+      padding: 2.7px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      margin: 0 0 10px 0;
+      font-weight: 600;
+    }
+    .profile-bio {
+      margin: 12px 0 10px 0;
+      font-size: 1.13em;
+      color: #7a7fbb;
+    }
+    .profile-rate { font-size: 1em; color: #555cc3; font-weight: 600; margin-right: 12px;}
+    .profile-dist { color: #555cc3; }
+    .profile-avail { margin-left: 16px; color: #555cc3;}
+    .profile-skills { color: #444; font-size: 1em; margin: 7px 0; }
+    .profile-portfolio a { color: #5f64ec; text-decoration: underline; }
+    .badge {
+      display: inline-block;
+      padding: 3px 11px;
+      background: #ffeef5;
+      color: #b81c5d;
+      border-radius: 7px;
+      margin: 3px 0;
+    }
+    .badge.top {
+      background: #baffd3;
+      color: #0f704b;
+    }
+    .card-section {
+      background: #f8f9ff;
+      border-radius: 13px;
+      box-shadow: 0 2px 13px #8385f422;
+      margin-top: 20px;
+      padding: 14px 16px;
+    }
+    .card-title {
+      font-weight: 700;
+      color: #5f64ec;
+      font-size: 1.13em;
+      margin-bottom: 8px;
+    }
+    /* Reviews */
+    .review {
+      background: #fff;
+      color: #5f64ec;
+      border-radius: 9px;
+      margin-bottom: 7px;
+      padding: 8px 13px;
+      font-size: 0.99em;
+      display: flex;
+      gap: 7px;
+      align-items: center;
+    }
+    .review-stars {
+      color: #f1b74f; font-size: 1em;
+    }
+    /* Book button */
+    .book-btn {
+      margin: 17px 0 17px 0;
+      padding: 13px 26px;
+      background: #5f64ec;
+      color: #fff;
+      border-radius: 9px;
+      border: none;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.18em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.21s;
+      display: block;
+      text-align: center;
+    }
+    .book-btn:hover {
+      background: #3637a5;
+    }
+    /* Chat widget */
+    #chatSection {
+      background: #f8f9ff;
+      border-radius: 13px;
+      box-shadow: 0 2px 13px #8385f422;
+      margin-top: 28px;
+      padding: 13px 13px 14px 13px;
+    }
+    #chatTitle {
+      font-weight: 700; font-size: 1.1em;
+      color: #5f64ec; margin-bottom: 7px;
+    }
+    #chatBox {
+      background: #fff;
+      border: 1.2px solid #e2e6fc;
+      min-height: 80px;
+      height: 130px;
+      max-height: 150px;
+      overflow-y: auto;
+      padding: 8px 7px 7px 13px;
+      font-size: .99em;
+      margin-bottom: 7px;
+      border-radius: 8px;
+    }
+    .msg {
+      margin-bottom: 6px;
+    }
+    .msg.user {
+      color: #fff;
+      background: #5f64ec;
+      padding: 6px 13px;
+      border-radius: 8px 13px 12px 5px;
+      align-self: flex-end;
+    }
+    .msg.vendor {
+      color: #5f64ec;
+      background: #e2e6fc;
+      padding: 6px 13px;
+      border-radius: 12px 5px 8px 15px;
+    }
+    .chatControls {
+      display: flex;
+      gap: 7px;
+    }
+    #chatInput {
+      flex: 1;
+      font-family: inherit;
+      border-radius: 6px;
+      padding: 8px;
+      border: 1.2px solid #e2e6fc;
+    }
+    #chatSend {
+      background: #5f64ec;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    #chatSend:hover {
+      background: #3637a5;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container" id="profileContainer">
+    <!-- Vendor info injected here by JS below -->
+  </div>
+
+  <script>
+    // Sample vendor data — maintain in sync with bookings.html
+    const vendors = [
+      {
+        name:"Anna Tailor",
+        avatar:"https://randomuser.me/api/portraits/women/90.jpg",
+        category:"tailoring",
+        cats:"Tailoring",
+        status:"Top Vendor",
+        skills:"Blouse making, Dress repairs, Fashion stitching",
+        bio:"10+ years in tailoring, specialising in ethnic, kids, and fusion wear. Quick delivery & creative work.",
+        portfolio:"https://mytailor-anna.com",
+        rate:350,
+        distance:0.9,
+        availability:"All Week 10am-8pm",
+        reviews:[
+          {stars:5,text:"Superb blouse fit! Highly recommended."},
+          {stars:5,text:"Saved my dress in two hours!"}
+        ]
+      },
+      {
+        name:"Ruksar Mehndi",
+        avatar:"https://randomuser.me/api/portraits/women/60.jpg",
+        category:"mehndi",
+        cats:"Mehndi Artistry",
+        status:"Top Vendor",
+        skills:"Contemporary, Bridal, Kids, Arabic pattern",
+        bio:"Multi-award-winning mehndi artist; intricate, allergy-safe designs for all occasions.",
+        portfolio:"https://mehndiruksar.com/portfolio",
+        rate:500,
+        distance:1.3,
+        availability:"Weekends 9am-10pm",
+        reviews:[
+          {stars:5,text:"Stunning design, faded very slowly!"},
+          {stars:4,text:"Great work at my friend's wedding."}
+        ]
+      },
+      {
+        name:"Simran Glow",
+        avatar:"https://randomuser.me/api/portraits/women/30.jpg",
+        category:"beauty",
+        cats:"Beauty Treatments",
+        status:"Top Vendor",
+        skills:"Facials, Waxing, Hair styling, Pre-bridal packages",
+        bio:"Freelance beautician certified with 5 salons. Specialises in sensitive skin. At-home & salon options.",
+        portfolio:"",
+        rate:600,
+        distance:2.2,
+        availability:"Mon-Fri 11am-7pm",
+        reviews:[
+          {stars:5,text:"Polite, explained all steps."},
+          {stars:5,text:"My go-to for haircut and facial."}
+        ]
+      },
+      {
+        name:"Nisha Kitchen",
+        avatar:"https://randomuser.me/api/portraits/women/27.jpg",
+        category:"food",
+        cats:"Food/Catering",
+        status:"Top Vendor",
+        skills:"Snacks, Home-style, Tiffin, Birthdays, Small events",
+        bio:"Certificate chef; 6 years small event catering. Veg & special orders. FSSAI licenced.",
+        portfolio:"https://nishakitchen.example",
+        rate:200,
+        distance:2.8,
+        availability:"Order anytime, pick slot",
+        reviews:[
+          {stars:5,text:"Food was just like home!"},
+          {stars:4,text:"Efficient and good communication."}
+        ]
+      },
+      {
+        name:"Ali Repairs",
+        avatar:"https://randomuser.me/api/portraits/men/73.jpg",
+        category:"labor",
+        cats:"Household Labor",
+        status:"New Vendor",
+        skills:"Electrician, AC repair, Plumbing, General",
+        bio:"Quick fix expert. No-nonsense approach. Certified by City Institute. Reliable for urgent needs.",
+        portfolio:"",
+        rate:175,
+        distance:2.9,
+        availability:"All Week 8am-9pm",
+        reviews:[]
+      },
+      {
+        name:"Priya Mehfil",
+        avatar:"https://randomuser.me/api/portraits/women/44.jpg",
+        category:"mehndi",
+        cats:"Mehndi Artistry",
+        status:"Top Vendor",
+        skills:"Kids-friendly, Quick drying, Personalised designs",
+        bio:"Young, creative mehndi artist—party and festival specialist. Patient with kids/elderly.",
+        portfolio:"",
+        rate:300,
+        distance:1.5,
+        availability:"Fri-Mon 10am-8pm",
+        reviews:[
+          {stars:4,text:"Good for kids events."}
+        ]
+      }
+    ];
+
+    // Get vendor index from URL ('?v=0' etc)
+    function getUrlIndex() {
+      const url = new URL(window.location);
+      const idx = url.searchParams.get("v");
+      return idx !== null ? parseInt(idx) : 0;
+    }
+
+    // Get vendor info and display
+    const idx = getUrlIndex();
+    const v = vendors[idx] || vendors[0]; // fallback if not found
+
+    // Build the profile HTML
+    let html = `
+      <img class="profile-avatar" src="${v.avatar}" alt="${v.name}">
+      <div class="profile-main">
+        <div class="profile-title">${v.name}</div>
+        <div class="profile-cats">${v.cats}</div>
+        <div class="profile-bio">${v.bio}</div>
+        ${
+          v.portfolio
+            ? `<div class="profile-section">Portfolio: <span class="profile-portfolio"><a href="${v.portfolio}" target="_blank">${v.portfolio}</a></span></div>`
+            : ""
+        }
+        <div class="profile-section">
+          <span class="profile-rate">₹${v.rate}/hr</span>
+          <span class="profile-dist">${v.distance} km away</span>
+          <span class="profile-avail">• ${v.availability}</span>
+        </div>
+        <div class="badge ${v.status === 'Top Vendor' ? 'top' : ''}">
+          ${v.status}${!v.reviews.length ? ' • New Vendor' : ''}
+        </div>
+        <div class="profile-section">
+          <b>Skills/Services:</b>
+          <span class="profile-skills">${v.skills}</span>
+        </div>
+        <div class="card-section">
+          <div class="card-title">Reviews</div>
+          ${
+            v.reviews.length
+              ? v.reviews
+                  .map(r => `<div class="review"><span class="review-stars">${'★'.repeat(r.stars)}</span> ${r.text}</div>`)
+                  .join('')
+              : `<span style="color:#b81c5d">No reviews yet. Be the first to book!</span>`
+          }
+        </div>
+        <button class="book-btn" onclick="window.open('booking-schedule.html', '_blank')">Book Now</button>
+        <div id="chatSection">
+          <div id="chatTitle">Personal Chat with Vendor</div>
+          <div id="chatBox"></div>
+          <form class="chatControls" onsubmit="return sendMsg();">
+            <input id="chatInput" type="text" placeholder="Type message..." autocomplete="off">
+            <button id="chatSend" type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('profileContainer').innerHTML = html;
+
+    // Simple (demo) chat logic
+    function sendMsg() {
+      const cb = document.getElementById('chatBox');
+      const val = document.getElementById('chatInput').value.trim();
+      if (!val) return false;
+      cb.innerHTML += `<div class="msg user">${val}</div>`;
+      document.getElementById('chatInput').value = '';
+      cb.scrollTop = cb.scrollHeight;
+      setTimeout(() => {
+        cb.innerHTML += `<div class="msg vendor">Vendor reply: I'll respond to your message shortly!</div>`;
+        cb.scrollTop = cb.scrollHeight;
+      }, 800);
+      return false;
+    }
+  </script>
+</body>
+</html>

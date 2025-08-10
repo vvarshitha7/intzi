@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+  .navbar {
+    background: #5f64ec;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    height: 60px;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
+  }
+  .navbar .brand {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    margin: 0 0 0 40px;
+    padding: 0;
+  }
+  .navbar ul li {
+    flex: 1;
+    text-align: center;
+  }
+  .navbar ul li a {
+    color: #bdc3c7;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 18px 0;
+    display: block;
+    border-radius: 4px 4px 0 0;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .navbar ul li a:hover {
+    background-color: #34495e;
+    color: #ecf0f1;
+  }
+  .navbar ul li a.active {
+    background-color: rgba(248, 249, 255, 0.8);
+    color: #5f64ec;
+    box-shadow: inset 0 -3px 0 0 #5f64eccc;
+    font-weight: 700;
+  }
+
+  /* Responsive for smaller screens */
+  @media (max-width: 600px) {
+    .navbar ul {
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-left: 20px;
+    }
+    .navbar ul li {
+      flex: none;
+      margin: 5px 10px;
+    }
+    .navbar {
+      padding: 0 20px;
+      height: auto;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  }
+</style>
+</head>
+
+<body>
+    <!-- navbar.html -->
+<nav class="navbar">
+  <div class="brand">INTZI</div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="bookings.html">Bookings</a></li>
+    <li><a href="notifications.html">Notifications</a></li>
+    <li><a href="myprofile.html">My Profile</a></li>
+    <li><a href="helpsupport.html">Help/Support</a></li>
+  </ul>
+</nav>
+    </body> 
+</html>

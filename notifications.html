@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notifications - INTZI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f8f9ff;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #222;
+    }
+    .navbar {
+      background: #5f64ec;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      height: 60px;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+    }
+    .navbar .brand {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+      margin: 0 0 0 40px;
+      padding: 0;
+    }
+    .navbar ul li { flex: 1; text-align: center; }
+    .navbar ul li a {
+      color: #bdc3c7;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 18px 0;
+      display: block;
+      border-radius: 4px 4px 0 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .navbar ul li a:hover {
+      background-color: #34495e;
+      color: #ecf0f1;
+    }
+    .navbar ul li a.active {
+      /* Transparent, blended effect for active 'Notifications' */
+      background-color: rgba(248,249,255,0.75);
+      color: #5f64ec;
+      box-shadow: inset 0 -3px 0 0 #5f64eccc;
+      font-weight: 700;
+    }
+    .notifications-container {
+      max-width: 980px;
+      margin: 48px auto;
+      background: #dadde1;
+      box-shadow: 0 8px 32px rgba(82,85,201,0.08);
+      border-radius: 18px;
+      padding: 35px 30px;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .notifications-header {
+      font-size: 2.1rem;
+      color: #353868;
+      font-weight: 700;
+      text-align: left;
+      margin-bottom: 3px;
+      letter-spacing: 1px;
+      font-family: 'Poppins',sans-serif;
+    }
+    .notifications-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px 22px;
+    }
+    @media (max-width: 800px) {
+      .notifications-container {
+        padding: 20px 5vw;
+      }
+      .notifications-list {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+    .notification-card {
+      background: #5f64ec;
+      border-radius: 14px;
+      box-shadow: 0 8px 28px rgba(95,100,236,0.08);
+      color: #fff;
+      padding: 22px 20px 16px 20px;
+      font-size: 1.08rem;
+      font-weight: 500;
+      display: flex;
+      align-items: flex-start;
+      gap: 17px;
+      position: relative;
+      cursor: pointer;
+      transition: box-shadow 0.25s, transform 0.21s;
+      border: none;
+      min-height: 74px;
+    }
+    .notification-card:hover {
+      box-shadow: 0 12px 38px rgba(95,100,236,0.23), 0 0 0 3px #f8f9ff;
+      transform: translateY(-2px) scale(1.017);
+    }
+    .notification-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 7px;
+      background: #f8f9ff;
+      color: #5f64ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+    .notification-body {
+      flex: 1;
+    }
+    .notification-title {
+      font-size: 1.08em;
+      font-family: 'Poppins',sans-serif;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: #fff;
+      letter-spacing: 0.03em;
+    }
+    .notification-description {
+      font-size: 0.94em;
+      color: #e2e6fc;
+      margin-bottom: 2px;
+      margin-top: 1px;
+    }
+    .notification-time {
+      font-size: 0.92em;
+      color: #c7caf2;
+      margin-top: 2px;
+    }
+    /* Example style for unread status */
+    .notification-card.unread {
+      border-left: 4px solid #ffca6f;
+    }
+    /* Responsive tweaks */
+    @media (max-width:600px) {
+      .notification-card { padding: 14px 10px;}
+      .notifications-header { font-size: 1.36rem;}
+    }
+  </style>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+    
+  <div class="notifications-container">
+    <div class="notifications-header">Notifications & Booking Reminders</div>
+    <div class="notifications-list">
+      <!-- Dynamic notification cards go here -->
+      <div class="notification-card unread">
+        <div class="notification-icon">🔔</div>
+        <div class="notification-body">
+          <div class="notification-title">Upcoming Booking Reminder</div>
+          <div class="notification-description">Your appointment with Dr. Suri is scheduled for tomorrow at 2:30PM.</div>
+          <div class="notification-time">Today, 2:22PM</div>
+        </div>
+      </div>
+      <div class="notification-card">
+        <div class="notification-icon">💡</div>
+        <div class="notification-body">
+          <div class="notification-title">Service Update</div>
+          <div class="notification-description">Your booking for "Repair Service" has been updated. New technician assigned.</div>
+          <div class="notification-time">Yesterday, 5:45PM</div>
+        </div>
+      </div>
+      <div class="notification-card unread">
+        <div class="notification-icon">📅</div>
+        <div class="notification-body">
+          <div class="notification-title">Upcoming Payment Due</div>
+          <div class="notification-description">Payment for booking #4312 due soon. Pay before the scheduled date to confirm.</div>
+          <div class="notification-time">Today, 12:10PM</div>
+        </div>
+      </div>
+      <div class="notification-card">
+        <div class="notification-icon">🔔</div>
+        <div class="notification-body">
+          <div class="notification-title">Provider Message</div>
+          <div class="notification-description">Provider "FixQuick" sent a message regarding your upcoming repair.</div>
+          <div class="notification-time">2 days ago</div>
+        </div>
+      </div>
+      <div class="notification-card">
+        <div class="notification-icon">✅</div>
+        <div class="notification-body">
+          <div class="notification-title">Booking Confirmed</div>
+          <div class="notification-description">Your booking for "Cleaning" on Aug 10th, 3PM is now confirmed.</div>
+          <div class="notification-time">4 days ago</div>
+        </div>
+      </div>
+      <div class="notification-card unread">
+        <div class="notification-icon">📣</div>
+        <div class="notification-body">
+          <div class="notification-title">New Offer</div>
+          <div class="notification-description">Get 10% off your next booking with coupon INZ10.</div>
+          <div class="notification-time">Just now</div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+  fetch('navbar.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('navbar-placeholder').innerHTML = data;
+
+      // Optional: Highlight active page link dynamically
+      const currentPage = window.location.pathname.split("/").pop();
+      const navLinks = document.querySelectorAll('#navbar-placeholder nav ul li a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    })
+    .catch(error => console.error('Error loading navbar:', error));
+</script>
+</body>
+</html>

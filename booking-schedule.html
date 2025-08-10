@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Schedule Booking - INTZI</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  body {
+    margin:0;padding:0;background:#f8f9ff;font-family:'Poppins',Arial,sans-serif;color:#222;
+  }
+  .container {
+    max-width: 420px;
+    margin: 60px auto;
+    background: #dadde1;
+    box-shadow: 0 8px 32px rgba(82,85,201,0.08);
+    border-radius: 18px;
+    padding: 38px 32px 30px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  h2 {
+    margin: 0 0 20px 0;
+    color: #5f64ec;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #444;
+  }
+  input[type="date"], select {
+    margin-top: 8px;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 7px;
+    border: 1.5px solid #e2e6fc;
+    background: #f8f9ff;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  button {
+    padding: 13px;
+    background: #5f64ec;
+    color: #fff;
+    border-radius: 9px;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.25s;
+    width: 100%;
+  }
+  button:hover {
+    background: #3637a5;
+  }
+  .book-now-now {
+    background: #18c799;
+  }
+  .book-now-now:hover {
+    background: #129a70;
+  }
+  .info-text {
+    font-size: 0.95rem;
+    color: #555;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Schedule Your Booking</h2>
+
+    <label for="bookingDate">Choose Date:</label>
+    <input type="date" id="bookingDate" min="" required />
+
+    <label for="bookingSlot">Choose Time Slot:</label>
+    <select id="bookingSlot">
+      <option>10:00 am - 12:00 pm</option>
+      <option>12:00 pm - 2:00 pm</option>
+      <option>2:00 pm - 4:00 pm</option>
+      <option>4:00 pm - 6:00 pm</option>
+      <option>6:00 pm - 8:00 pm</option>
+    </select>
+
+    <button onclick="continueToPayment()">Book for Selected Slot</button>
+
+    <div class="info-text">OR</div>
+
+    <button class="book-now-now" onclick="bookImmediately()">Book Immediately</button>
+  </div>
+
+  <script>
+    // Set today as minimum date for booking
+    const bookingDate = document.getElementById('bookingDate');
+    bookingDate.min = new Date().toISOString().split('T')[0];
+
+    function continueToPayment() {
+      if (!bookingDate.value) {
+        alert('Please select a date.');
+        return;
+      }
+      // Save booking info to localStorage or sessionStorage (demo)
+      localStorage.setItem('bookingDate', bookingDate.value);
+      localStorage.setItem('bookingSlot', document.getElementById('bookingSlot').value);
+      // Open payment page in new tab
+      window.open('payment.html', '_blank');
+    }
+
+    function bookImmediately() {
+      // Simulate sending immediate booking request (demo feedback)
+      alert('Booking request sent immediately to the vendor!');
+      // For demo, open payment page immediately after
+      window.open('payment.html', '_blank');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Help Desk - INTZI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f8f9ff;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #222;
+    }
+    /* Navbar styling */
+    .navbar {
+      background: #5f64ec;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      height: 60px;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+    }
+    .navbar .brand {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+      margin: 0 0 0 40px;
+      padding: 0;
+    }
+    .navbar ul li {
+      flex: 1;
+      text-align: center;
+    }
+    .navbar ul li a {
+      color: #bdc3c7;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 18px 0;
+      display: block;
+      border-radius: 4px 4px 0 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .navbar ul li a:hover {
+      background-color: #34495e;
+      color: #ecf0f1;
+    }
+    .navbar ul li a.active {
+      background-color: rgba(248,249,255,0.8);
+      color: #5f64ec;
+      box-shadow: inset 0 -3px 0 0 #5f64eccc;
+      font-weight: 700;
+    }
+
+    .helpdesk-container {
+      max-width: 970px;
+      margin: 48px auto;
+      padding: 30px 20px;
+      background: #dadde1;
+      box-shadow: 10px 8px 32px rgba(82,85,201,0.08);
+      border-radius: 18px;
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .helpdesk-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .helpdesk-header {
+      color: #353868;
+      font-size: 2.1rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+
+    .helpdesk-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      margin-bottom: 18px;
+    }
+
+    .helpdesk-card {
+      background: #5f64ec;
+      border-radius: 15px;
+      box-shadow: 10px 6px 18px rgba(95,100,236,0.06);
+      color: #fff;
+      padding: 24px 20px;
+      font-size: 1.18rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .helpdesk-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 22px rgba(95,100,236,0.17);
+      background: #474cb3;
+    }
+    .helpdesk-card .icon {
+      font-size: 1.55em;
+      margin-right: 7px;
+      flex-shrink: 0;
+    }
+    .helpdesk-desc {
+      font-size: 1rem;
+      color: #8287bf;
+      margin-bottom: 8px;
+    }
+
+    .contact-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .contact-option {
+      background: #f8f9ff;
+      color: #5f64ec;
+      border: 2px solid #e2e6fc;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.19s, border-color 0.2s;
+    }
+    .contact-option:hover {
+      background: #e2e6fc;
+    }
+
+    .helpdesk-extras {
+      margin-top: 22px;
+      font-size: 0.97em;
+      color: #374ab1;
+    }
+    /* Chatbot Widget */
+    .chatbot-widget {
+  width: 350px;
+  min-height: 370px;
+  background: linear-gradient(135deg, #eef0fd 65%, #d2d4fc 100%);
+  border-radius: 22px;
+  box-shadow: 0 6px 32px rgba(80,90,236,0.15), 0 0 0 5px #5f64ec50;
+  border: 2.5px solid #5f64ec;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  z-index: 2;
+}
+.chatbot-header {
+  background: #5f64ec;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 18px 24px;
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 2px 13px #8a8cf533;
+}
+
+    .chatbot-messages {
+      flex: 1;
+      padding: 16px 16px 10px 16px;
+      overflow-y: auto;
+      font-size: 1rem;
+    }
+    .chatbot-message {
+      background: #e2e6fc;
+      color: #222;
+      border-radius: 11px;
+      padding: 10px 16px;
+      margin-bottom: 10px;
+      max-width: 89%;
+      word-break: break-word;
+    }
+    .chatbot-message.user {
+      background: #5f64ec;
+      color: #fff;
+      align-self: flex-end;
+    }
+    .chatbot-input-area {
+      padding: 10px 16px;
+      border-top: 1px solid #e0e5fb;
+      display: flex;
+      gap: 8px;
+      background: #f8f9ff;
+    }
+    .chatbot-input {
+      flex: 1;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #e2e6fc;
+      outline: none;
+      color: #222;
+    }
+    .chatbot-send {
+      padding: 8px 14px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #5f64ec;
+      color: #fff;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .chatbot-send:hover {
+      background: #3a3f82;
+    }
+
+    @media (max-width: 900px) {
+      .helpdesk-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .chatbot-widget {
+        margin-top: 30px;
+        width: 100%;
+        max-width: 370px;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+  <div class="helpdesk-container">
+    <div class="helpdesk-info">
+      <div class="helpdesk-header">Help Desk</div>
+      <div class="helpdesk-desc">Contact us about queries or complaints &mdash; we're here to help.</div>
+      <div class="helpdesk-cards">
+        <div class="helpdesk-card">
+          <span class="icon">🎫</span>
+          Ticketing System: Track and resolve support issues efficiently.
+        </div>
+        <div class="helpdesk-card">
+          <span class="icon">📚</span>
+          Knowledge Base: Find FAQs, guides, and tutorials to solve issues fast.
+        </div>
+        <div class="helpdesk-card">
+          <span class="icon">💬</span>
+          Live Chat: Get instant help from a support agent or bot.
+        </div>
+        <div class="helpdesk-card">
+          <span class="icon">⚡</span>
+          Automation: Simple tasks auto-handled for quick answers.
+        </div>
+        <div class="helpdesk-card">
+          <span class="icon">📊</span>
+          Reports: Insights on ticket status, satisfaction & more.
+        </div>
+      </div>
+      <div class="contact-options">
+        <button class="contact-option">Email</button>
+        <button class="contact-option">Live Chat</button>
+        <button class="contact-option">Forms</button>
+      </div>
+      <div class="helpdesk-extras">
+        Need help now? Try our chatbot or browse the knowledge base!
+      </div>
+    </div>
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" id="chatbotWidget">
+      <div class="chatbot-header">INTZI HelpBot</div>
+      <div class="chatbot-messages" id="chatbotMessages">
+        <div class="chatbot-message">👋 Hi! How can I help you today?</div>
+      </div>
+      <form class="chatbot-input-area" onsubmit="return sendChatMessage();">
+        <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message..." autocomplete="off" />
+        <button type="submit" class="chatbot-send">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // VERY SIMPLE ChatBot Logic (for demo; replace with your real AI/chatbot integration for production!)
+    const chatbotMessages = document.getElementById('chatbotMessages');
+    const chatbotInput = document.getElementById('chatbotInput');
+    function sendChatMessage() {
+      let msg = chatbotInput.value.trim();
+      if(!msg) return false;
+      // Add user's message
+      let userMsg = document.createElement('div');
+      userMsg.className = 'chatbot-message user';
+      userMsg.textContent = msg;
+      chatbotMessages.appendChild(userMsg);
+
+      setTimeout(() => {
+        let botMsg = document.createElement('div');
+        botMsg.className = 'chatbot-message';
+        // Basic responses
+        let lower = msg.toLowerCase();
+        if(lower.includes('ticket') || lower.includes('complaint')) {
+          botMsg.textContent = "You can raise a ticket using the Ticketing System card above or let me know your issue here!";
+        } else if(lower.includes('faq') || lower.includes('guide')) {
+          botMsg.textContent = "Visit the Knowledge Base card for FAQs and guides, or ask me directly!";
+        } else if(lower.includes('hello') || lower.includes('hi')) {
+          botMsg.textContent = "Hello! How can I make your day easier?";
+        } else if(lower.includes('contact')) {
+          botMsg.textContent = "You can contact us by Email, Live Chat, or Forms. What would you like to do?";
+        } else {
+          botMsg.textContent = "Let me forward your request to our help desk team. Can you please describe your issue?";
+        }
+        chatbotMessages.appendChild(botMsg);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      }, 700);
+      chatbotInput.value = '';
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      return false;
+    }
+  </script>
+<script>
+  fetch('navbar.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('navbar-placeholder').innerHTML = data;
+
+      // Optional: Highlight active page link dynamically
+      const currentPage = window.location.pathname.split("/").pop();
+      const navLinks = document.querySelectorAll('#navbar-placeholder nav ul li a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    })
+    .catch(error => console.error('Error loading navbar:', error));
+</script>
+</body>
+</html>

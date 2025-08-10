@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Profile - INTZI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f8f9ff; /* light pale background */
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #222;
+    }
+    /* Navbar styling */
+    .navbar {
+      background: #5f64ec; /* same top nav bar color */
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      height: 60px;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+    }
+    .navbar .brand {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+      margin: 0 0 0 40px;
+      padding: 0;
+    }
+    .navbar ul li {
+      flex: 1;
+      text-align: center;
+    }
+    .navbar ul li a {
+      color: #bdc3c7;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 18px 0;
+      display: block;
+      border-radius: 4px 4px 0 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .navbar ul li a:hover {
+      background-color: #34495e;
+      color: #ecf0f1;
+    }
+    .navbar ul li a.active {
+      /* Use page background color with partial transparency and subtle border */
+      background-color: rgba(248, 249, 255, 0.8);
+      color: #5f64ec;
+      box-shadow: inset 0 -3px 0 0 #5f64eccc;
+      font-weight: 700;
+    }
+
+    /* Container for profile and cards */
+    .profile-container {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 30px 20px;
+      background: #dadde1;
+      box-shadow: 0 8px 32px rgba(82, 85, 201, 0.08);
+      border-radius: 18px;
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    /* Profile section styling */
+    .profile-icon {
+      width: 200px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .profile-icon-figure {
+      width: 160px;
+      height: 200px;
+      background: #f0f2fa;
+      border-radius: 24px;
+      border: 5px solid #2220;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .avatar {
+      margin-top: 36px;
+      width: 90px;
+      height: 90px;
+      background: #eee;
+      border-radius: 50%;
+      border: 6px solid #d1d5f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar svg {
+      display: block;
+      width: 64px;
+      height: 64px;
+    }
+    .profile-name {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #353868;
+      user-select: text;
+      text-align: center;
+    }
+    .profile-description {
+      margin-top: 6px;
+      font-size: 1rem;
+      color: #7a7fbb;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-align: center;
+      user-select: text;
+    }
+
+    /* Cards vertical layout */
+    .cards-column {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      flex: 1;
+      max-width: 420px;
+    }
+    .profile-card {
+      background: #5f64ec; /* same color as nav bar */
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 30px 25px;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1.3rem;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .profile-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(95, 100, 236, 0.7);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 750px) {
+      .profile-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .cards-column {
+        max-width: 100%;
+        width: 100%;
+      }
+      .profile-icon {
+        width: 100%;
+        max-width: 200px;
+        margin-bottom: 30px;
+      }
+      .navbar ul li {
+        flex: initial;
+      }
+      .navbar ul {
+        margin-left: 20px;
+        justify-content: space-around;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+  <div class="profile-container">
+    <div class="profile-icon">
+      <div class="profile-icon-figure">
+        <div class="avatar">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="34" r="26" fill="#c4c9ee"/>
+            <ellipse cx="50" cy="80" rx="36" ry="18" fill="#c4c9ee"/>
+            <circle cx="50" cy="40" r="16" fill="#fff"/>
+            <ellipse cx="50" cy="80" rx="20" ry="10" fill="#fff"/>
+          </svg>
+        </div>
+      </div>
+      <div class="profile-name">John Doe</div>
+      <div class="profile-description">Type: Consumer</div>
+    </div>
+
+    <div class="cards-column">
+      <div class="profile-card" onclick="navigate('upcoming')">
+        Upcoming Bookings
+      </div>
+      <div class="profile-card" onclick="navigate('history')">
+        Booking History
+      </div>
+      <div class="profile-card" onclick="navigate('saved')">
+        Saved Providers
+      </div>
+      <div class="profile-card" onclick="navigate('settings')">
+        Profile Settings
+      </div>
+      <div class="profile-card" onclick="navigate('payment')">
+        Payment Methods
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function navigate(section) {
+      alert('Navigating to ' + section);
+      // Add actual navigation logic here
+    }
+  </script>
+<script>
+  fetch('navbar.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('navbar-placeholder').innerHTML = data;
+
+      // Optional: Highlight active page link dynamically
+      const currentPage = window.location.pathname.split("/").pop();
+      const navLinks = document.querySelectorAll('#navbar-placeholder nav ul li a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    })
+    .catch(error => console.error('Error loading navbar:', error));
+</script>
+</body>
+</html>

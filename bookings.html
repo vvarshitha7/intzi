@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bookings - INTZI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { margin:0; padding:0; background:#f8f9ff; font-family:'Poppins',Arial,sans-serif; color:#222;}
+    .main-container { max-width:1050px; margin:48px auto 50px auto; background:#dadde1; box-shadow:0 8px 32px rgba(82,85,201,0.08); border-radius:18px; padding:35px 28px 45px 28px; min-height:600px;}
+
+    .filters-bar { display:flex; gap:13px; margin-bottom:36px; flex-wrap:wrap;}
+    .filters-bar input,
+    .filters-bar select { font-family:'Poppins',Arial,sans-serif; padding:10px 18px; font-size:1.08rem; border-radius:9px; border:1.5px solid #e2e6fc; background:#f8f9ff; margin-right:9px; outline:none;}
+
+    .vendors-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+    @media (max-width:900px) {.vendors-grid{grid-template-columns:repeat(2,1fr);} .main-container{padding:20px 5vw;}}
+    @media (max-width:700px) {.vendors-grid{grid-template-columns:1fr;}}
+
+    .vendor-card { background:#5f64ec; color:#fff; border-radius:14px; box-shadow:0 8px 32px rgba(95,100,236,0.11); padding:30px 20px 22px 20px; display:flex; flex-direction:column; align-items:center; cursor:pointer; position:relative; transition:box-shadow 0.24s, transform 0.20s;}
+    .vendor-card:hover { box-shadow:0 12px 40px rgba(95,100,236,0.23),0 0 0 3px #f8f9ff; transform:translateY(-2px) scale(1.017);}
+    .vendor-avatar { width:70px; height:70px; border-radius:50%; background:#d0d2fa; margin-bottom:11px; object-fit:cover; border:2.5px solid #fff;}
+    .vendor-name { font-size:1.23rem; font-weight:700; margin-bottom:3px; letter-spacing:.01em;}
+    .vendor-cats { font-size:.93em; background:#472fc7aa; color:#ffd878; padding:2.7px 12px; border-radius:6px; margin-bottom:8px; font-weight:600;}
+    .vendor-skills { font-size:.96em; color:#cbe3fa; text-align:center; margin-bottom:7px;}
+    .vendor-extra { display:flex; justify-content:center; gap:17px; margin-bottom:4px; font-size:.97em; color:#e0e5fb;}
+    .vendor-status { position:absolute; top:16px; right:18px; background:#ffd678; color:#7d6129; padding:4px 13px; font-weight:600; border-radius:7px; font-size:.96em; letter-spacing:.02em;}
+    .vendor-status.top { background:#baffd3; color:#0f704b;} .vendor-status.new { background:#ffeef5; color:#b81c5d;}
+
+    /* Profile and modal logic */
+    #profileView { display:none; position:relative; }
+    .back-arrow { position:absolute; top:18px; left:10px; font-size:2rem; color:#5f64ec; cursor:pointer; opacity:0.87; z-index:2;}
+    .back-arrow:hover { color:#3637a5; opacity:1;}
+
+    .profile-container { max-width:700px; margin:0 auto; background:#dadde1; box-shadow:0 8px 28px rgba(82,85,201,0.13); border-radius:17px; padding:35px 29px 40px 29px; display:flex; gap:30px; flex-wrap:wrap; position:relative;}
+    @media(max-width:700px) {.profile-container{flex-direction:column; gap:20px; padding:20px 15px;}}
+    .profile-avatar { width:120px; height:120px; border-radius:50%; background:#e7ebfa; border:3.5px solid #5f64ec; object-fit:cover;}
+    .profile-main { flex:1; min-width:280px;}
+    .profile-title { font-weight:700; font-size:1.45rem; letter-spacing:.018em;}
+    .profile-cats { font-size:1em; background:#472fc7aa; color:#ffd878; padding:2.7px 12px; border-radius:6px; display:inline-block; margin:0 0 10px 0; font-weight:600;}
+    .profile-bio { margin:12px 0 10px 0; font-size:1.13em; color:#7a7fbb;}
+    .profile-rate { font-size:1em; color:#555cc3; font-weight:600; margin-right:12px;}
+    .profile-dist { color:#555cc3;}
+    .profile-avail { margin-left:16px; color:#555cc3;}
+    .profile-skills { color:#444; font-size:1em; margin:7px 0;}
+    .profile-portfolio a { color:#5f64ec; text-decoration:underline;}
+    .badge { display:inline-block; padding:3px 11px; background:#ffeef5; color:#b81c5d; border-radius:7px; margin:3px 0;}
+    .badge.top { background:#baffd3; color:#0f704b;}
+    .card-section { background:#f8f9ff; border-radius:13px; box-shadow:0 2px 13px #8385f422; margin-top:20px; padding:14px 16px;}
+    .card-title { font-weight:700; color:#5f64ec; font-size:1.13em; margin-bottom:8px;}
+    .review { background:#fff; color:#5f64ec; border-radius:9px; margin-bottom:7px; padding:8px 13px; font-size:0.99em; display:flex; gap:7px; align-items:center;}
+    .review-stars { color:#f1b74f; font-size:1em;}
+    .book-btn { margin:17px 0 17px 0; padding:13px 26px; background:#5f64ec; color:#fff; border-radius:9px; border:none; font-family:'Poppins',sans-serif; font-size:1.18em; font-weight:600; cursor:pointer; transition:background 0.21s; display:block; text-align:center;}
+    .book-btn:hover { background:#3637a5;}
+    #chatSection { background:#f8f9ff; border-radius:13px; box-shadow:0 2px 13px #8385f422; margin-top:28px; padding:13px 13px 14px 13px;}
+    #chatTitle { font-weight:700; font-size:1.1em; color:#5f64ec; margin-bottom:7px;}
+    #chatBox { background:#fff; border:1.2px solid #e2e6fc; min-height:80px; height:130px; max-height:150px; overflow-y:auto; padding:8px 7px 7px 13px; font-size:.99em; margin-bottom:7px; border-radius:8px;}
+    .msg { margin-bottom:6px;} .msg.user { color:#fff; background:#5f64ec; padding:6px 13px; border-radius:8px 13px 12px 5px;} .msg.vendor { color:#5f64ec; background:#e2e6fc; padding:6px 13px; border-radius:12px 5px 8px 15px;}
+    .chatControls { display:flex; gap:7px;}
+    #chatInput { flex:1; font-family:inherit; border-radius:6px; padding:8px; border:1.2px solid #e2e6fc;}
+    #chatSend { background:#5f64ec; color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; font-size:1em; cursor:pointer; transition:background .2s;}
+    #chatSend:hover { background:#3637a5;}
+    /* Modal for scheduling */
+    #scheduleModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.32); backdrop-filter:blur(3px); z-index:100; justify-content:center; align-items:center;}
+    #scheduleModal.active { display:flex;}
+    #scheduleModal .modal-card { background:#dadde1; border-radius:18px; box-shadow:0 8px 32px rgba(82,85,201,0.15); width:360px; position:relative; padding:30px 25px 35px 25px; margin-top:15px; animation:fadeIn .22s; display:flex; flex-direction:column; gap:8px;}
+    #scheduleModal .modal-close { position:absolute; top:8px; right:18px; cursor:pointer; font-size:2rem; color:#555; opacity:0.88; background:none; border:none; outline:none; transition:color 0.21s;}
+    #scheduleModal .modal-close:hover { color:#b81c5d; opacity:1;}
+    @keyframes fadeIn { from {opacity:0; transform:scale(0.97);} to {opacity:1; transform:scale(1);} }
+    #scheduleModal h2 { color:#5f64ec; margin-bottom:18px; font-weight:700; text-align:center; font-size:1.45rem;}
+    #scheduleModal label { font-weight:600; font-size:1rem; color:#444; margin-top:13px; margin-bottom:4px; display:block;}
+    #scheduleModal input[type="date"], #scheduleModal select { width:100%; padding:9px; border-radius:7px; border:1.5px solid #e2e6fc; background:#f8f9ff; font-size:1rem; box-sizing:border-box; margin-bottom:10px; margin-top:3px;}
+
+    #scheduleModal button { margin-top:13px; background:#5f64ec; color:#fff; font-weight:700; font-size:1rem; padding:12px; border-radius:9px; border:none; width:100%; cursor:pointer; transition:background 0.21s;}
+    #scheduleModal button:hover { background:#3637a5;}
+    #scheduleModal .book-now-now { background:#18c799; margin-top:8px; font-size:1rem; font-weight:700;}
+    #scheduleModal .book-now-now:hover { background:#129a70;}
+    #scheduleModal .modal-info-text { text-align:center; margin:14px 0 2px 0; color:#555; font-weight:600; font-size:.99rem; }
+  </style>
+</head>
+<body>
+  <!-- Navbar placeholder -->
+  <div id="navbar-placeholder"></div>
+  <div class="main-container">
+    <!-- Bookings grid view -->
+    <div id="bookingsView">
+      <div class="filters-bar">
+        <input type="text" placeholder="Search vendor or skill/cat" id="searchVendor" oninput="filterVendors()" />
+        <select id="filterType" onchange="filterVendors()">
+          <option value="all">All</option>
+          <option value="tailoring">Tailoring</option>
+          <option value="mehndi">Mehndi Artistry</option>
+          <option value="beauty">Beauty Treatments</option>
+          <option value="food">Food/Catering</option>
+          <option value="labor">Household Labor</option>
+          <option value="nearyou">Near you</option>
+        </select>
+      </div>
+      <div class="vendors-grid" id="vendorsGrid"></div>
+    </div>
+    <!-- Vendor profile view -->
+    <div id="profileView"></div>
+    <!-- Schedule booking modal -->
+    <div id="scheduleModal">
+      <div class="modal-card">
+        <button class="modal-close" onclick="closeScheduleModal()" title="Close">&#10005;</button>
+        <h2>Schedule Your Booking</h2>
+        <label for="modalBookingDate">Choose Date:</label>
+        <input type="date" id="modalBookingDate" required />
+        <label for="modalBookingSlot">Choose Time Slot:</label>
+        <select id="modalBookingSlot">
+          <option>10:00 am - 12:00 pm</option>
+          <option>12:00 pm - 2:00 pm</option>
+          <option>2:00 pm - 4:00 pm</option>
+          <option>4:00 pm - 6:00 pm</option>
+          <option>6:00 pm - 8:00 pm</option>
+        </select>
+        <button onclick="scheduleBooking()">Book for Selected Slot</button>
+        <div class="modal-info-text">OR</div>
+        <button class="book-now-now" onclick="bookImmediately()">Book Immediately</button>
+      </div>
+    </div>
+  </div>
+<script>
+  // Load navbar.html and highlight current link
+  fetch('navbar.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('navbar-placeholder').innerHTML = data;
+      highlightActiveNav();
+    });
+  function highlightActiveNav() {
+    let current = location.pathname.split("/").pop().toLowerCase();
+    document.querySelectorAll('.navbar ul li a').forEach(link => {
+      if (link.getAttribute('href') && link.getAttribute('href').toLowerCase() === current) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }
+
+  // Six sample vendors
+  const vendors = [
+    {
+      name:"Anna Tailor",avatar:"https://randomuser.me/api/portraits/women/90.jpg",
+      category:"tailoring",cats:"Tailoring",status:"Top Vendor",
+      skills:"Blouse making, Dress repairs, Fashion stitching",
+      bio:"10+ years in tailoring, specialising in ethnic, kids, and fusion wear. Quick delivery & creative work.",
+      portfolio:"https://mytailor-anna.com",
+      rate:350, distance:0.9, availability:"All Week 10am-8pm",
+      reviews:[{stars:5,text:"Superb blouse fit! Highly recommended."},{stars:5,text:"Saved my dress in two hours!"}]
+    },{
+      name:"Ruksar Mehndi",avatar:"https://randomuser.me/api/portraits/women/60.jpg",
+      category:"mehndi",cats:"Mehndi Artistry",status:"Top Vendor",
+      skills:"Contemporary, Bridal, Kids, Arabic pattern",
+      bio:"Multi-award-winning mehndi artist; intricate, allergy-safe designs for all occasions.",
+      portfolio:"https://mehndiruksar.com/portfolio",rate:500, distance:1.3, availability:"Weekends 9am-10pm",
+      reviews:[{stars:5,text:"Stunning design, faded very slowly!"},{stars:4,text:"Great work at my friend's wedding."}]
+    },{
+      name:"Simran Glow",avatar:"https://randomuser.me/api/portraits/women/30.jpg",
+      category:"beauty",cats:"Beauty Treatments",status:"Top Vendor",
+      skills:"Facials, Waxing, Hair styling, Pre-bridal packages",
+      bio:"Freelance beautician certified with 5 salons. Specialises in sensitive skin. At-home & salon options.",
+      portfolio:"",rate:600, distance:2.2, availability:"Mon-Fri 11am-7pm",
+      reviews:[{stars:5,text:"Polite, explained all steps."},{stars:5,text:"My go-to for haircut and facial."}]
+    },{
+      name:"Nisha Kitchen",avatar:"https://randomuser.me/api/portraits/women/27.jpg",
+      category:"food",cats:"Food/Catering",status:"Top Vendor",
+      skills:"Snacks, Home-style, Tiffin, Birthdays, Small events",
+      bio:"Certificate chef; 6 years small event catering. Veg & special orders. FSSAI licenced.",
+      portfolio:"https://nishakitchen.example",rate:200, distance:2.8, availability:"Order anytime, pick slot",
+      reviews:[{stars:5,text:"Food was just like home!"},{stars:4,text:"Efficient and good communication."}]
+    },{
+      name:"Ali Repairs",avatar:"https://randomuser.me/api/portraits/men/73.jpg",
+      category:"labor",cats:"Household Labor",status:"New Vendor",
+      skills:"Electrician, AC repair, Plumbing, General",
+      bio:"Quick fix expert. No-nonsense approach. Certified by City Institute. Reliable for urgent needs.",
+      portfolio:"",rate:175, distance:2.9, availability:"All Week 8am-9pm",reviews:[]
+    },{
+      name:"Priya Mehfil",avatar:"https://randomuser.me/api/portraits/women/44.jpg",
+      category:"mehndi",cats:"Mehndi Artistry",status:"Top Vendor",
+      skills:"Kids-friendly, Quick drying, Personalised designs",
+      bio:"Young, creative mehndi artist—party and festival specialist. Patient with kids/elderly.",
+      portfolio:"",rate:300, distance:1.5, availability:"Fri-Mon 10am-8pm",reviews:[{stars:4,text:"Good for kids events."}]
+    }
+  ];
+  // Views
+  const bookingsView = document.getElementById('bookingsView');
+  const profileView = document.getElementById('profileView');
+  const scheduleModal = document.getElementById('scheduleModal');
+  let currentVendorIndex = null;
+  // Render vendors grid
+  function renderVendors(list = vendors) {
+    const grid = document.getElementById('vendorsGrid');
+    grid.innerHTML = '';
+    list.forEach((vendor, idx) => {
+      let statusClass = vendor.status === 'Top Vendor' ? 'top' : 'new';
+      grid.innerHTML += `
+        <div class="vendor-card" onclick="openVendorProfile(${idx})">
+          <img class="vendor-avatar" src="${vendor.avatar}" alt="${vendor.name}">
+          <div class="vendor-name">${vendor.name}</div>
+          <div class="vendor-cats">${vendor.cats}</div>
+          <div class="vendor-skills">${vendor.skills}</div>
+          <div class="vendor-extra">
+            <span class="vendor-price">₹${vendor.rate}/hr</span>
+            <span class="vendor-distance">${vendor.distance} km away</span>
+          </div>
+          <div class="vendor-status ${statusClass}">${vendor.status}</div>
+        </div>
+      `;
+    });
+  }
+  renderVendors();
+  // Filter logic
+  function filterVendors() {
+    const search = document.getElementById('searchVendor').value.trim().toLowerCase();
+    const type = document.getElementById('filterType').value;
+    let filtered = vendors.filter(v =>
+      v.name.toLowerCase().includes(search) ||
+      v.skills.toLowerCase().includes(search) ||
+      v.cats.toLowerCase().includes(search)
+    );
+    if (type !== 'all' && type !== 'nearyou') {
+      filtered = filtered.filter(v => v.category === type);
+    }
+    if (type === 'nearyou') {
+      filtered = filtered.filter(v => v.distance <= 1.6);
+    }
+    renderVendors(filtered);
+  }
+  // Open vendor profile view in same tab
+  function openVendorProfile(idx) {
+    currentVendorIndex = idx;
+    const v = vendors[idx];
+    bookingsView.style.display = 'none';
+    scheduleModal.classList.remove('active');
+    profileView.style.display = 'block';
+    profileView.innerHTML = `
+      <span class="back-arrow" onclick="showBookings()" title="Back to Bookings">&#8592;</span>
+      <div class="profile-container">
+        <img class="profile-avatar" src="${v.avatar}" alt="${v.name}">
+        <div class="profile-main">
+          <div class="profile-title">${v.name}</div>
+          <div class="profile-cats">${v.cats}</div>
+          <div class="profile-bio">${v.bio}</div>
+          ${v.portfolio ? `<div class="profile-section">Portfolio: <span class="profile-portfolio"><a href="${v.portfolio}" target="_blank">${v.portfolio}</a></span></div>` : ""}
+          <div class="profile-section">
+            <span class="profile-rate">₹${v.rate}/hr</span>
+            <span class="profile-dist">${v.distance} km away</span>
+            <span class="profile-avail">• ${v.availability}</span>
+          </div>
+          <div class="badge ${v.status === "Top Vendor" ? "top" : ""}">
+            ${v.status}${v.reviews.length === 0 ? " • New Vendor" : ""}
+          </div>
+          <div class="profile-section">
+            <b>Skills/Services:</b> <span class="profile-skills">${v.skills}</span>
+          </div>
+          <div class="card-section">
+            <div class="card-title">Reviews</div>
+            ${
+              v.reviews && v.reviews.length
+                ? v.reviews.map(r => `<div class="review"><span class="review-stars">${"★".repeat(r.stars)}</span> ${r.text}</div>`).join("")
+                : '<span style="color:#b81c5d">No reviews yet. Be the first to book!</span>'
+            }
+          </div>
+          <button class="book-btn" onclick="openScheduleModal()">Book Now</button>
+          <div id="chatSection">
+            <div id="chatTitle">Personal Chat with Vendor</div>
+            <div id="chatBox"></div>
+            <form class="chatControls" id="chatForm" onsubmit="return sendMsg();">
+              <input id="chatInput" type="text" placeholder="Type message..." autocomplete="off" />
+              <button id="chatSend" type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    `;
+    attachProfileChatLogic();
+  }
+  function attachProfileChatLogic() {
+    const chatForm = document.getElementById('chatForm');
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (!message) return;
+      const chatBox = document.getElementById('chatBox');
+      chatBox.innerHTML += `<div class="msg user">${message}</div>`;
+      input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+      setTimeout(() => {
+        chatBox.innerHTML += `<div class="msg vendor">Vendor reply: I'll respond to your message shortly!</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 800);
+    });
+  }
+  function showBookings() {
+    bookingsView.style.display = 'block';
+    profileView.style.display = 'none';
+    scheduleModal.classList.remove('active');
+  }
+  function openScheduleModal() {
+    scheduleModal.classList.add('active');
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('modalBookingDate').setAttribute('min', today);
+    document.getElementById('modalBookingDate').value = today;
+    document.getElementById('modalBookingSlot').selectedIndex = 0;
+  }
+  function closeScheduleModal() {
+    scheduleModal.classList.remove('active');
+  }
+  function scheduleBooking() {
+    const bookingDate = document.getElementById('modalBookingDate').value;
+    if (!bookingDate) {
+      alert('Please select a date.');
+      return;
+    }
+    localStorage.setItem('bookingDate', bookingDate);
+    localStorage.setItem('bookingSlot', document.getElementById('modalBookingSlot').value);
+    window.open('payment.html', '_blank');
+    closeScheduleModal();
+  }
+  function bookImmediately() {
+    alert('Booking request sent immediately to the vendor!');
+    window.open('payment.html', '_blank');
+    closeScheduleModal();
+  }
+  // In-page navigation (if user clicks links in injected navbar.html)
+  window.addEventListener('DOMContentLoaded',()=>{
+    document.body.addEventListener('click',function(e){
+      // Only intercept nav links in .navbar
+      if(e.target.closest('.navbar ul li a')) {
+        document.querySelectorAll('.navbar ul li a').forEach(link=>link.classList.remove('active'));
+        e.target.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
