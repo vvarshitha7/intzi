@@ -93,29 +93,46 @@
     <button class="book-now-now" onclick="bookImmediately()">Book Immediately</button>
   </div>
 
-  <script>
-    // Set today as minimum date for booking
-    const bookingDate = document.getElementById('bookingDate');
-    bookingDate.min = new Date().toISOString().split('T')[0];
+<script>
+  // Set today as minimum date
+  const bookingDate = document.getElementById('bookingDate');
+  bookingDate.min = new Date().toISOString().split('T')[0];
 
-    function continueToPayment() {
-      if (!bookingDate.value) {
-        alert('Please select a date.');
-        return;
-      }
-      // Save booking info to localStorage or sessionStorage (demo)
-      localStorage.setItem('bookingDate', bookingDate.value);
-      localStorage.setItem('bookingSlot', document.getElementById('bookingSlot').value);
-      // Open payment page in new tab
-      window.open('payment.html', '_blank');
+  // Demo login check (adjust as needed)
+  function isUserLoggedIn() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user && user.loggedIn;
+  }
+
+  function continueToPayment() {
+    if (!isUserLoggedIn()) {
+      alert("Please log in to book a provider.");
+      window.location.href = "login.html";
+      return;
+    }
+    if (!bookingDate.value) {
+      alert('Please select a date.');
+      return;
     }
 
-    function bookImmediately() {
-      // Simulate sending immediate booking request (demo feedback)
-      alert('Booking request sent immediately to the vendor!');
-      // For demo, open payment page immediately after
-      window.open('payment.html', '_blank');
+    localStorage.setItem('bookingDate', bookingDate.value);
+    localStorage.setItem('bookingSlot', document.getElementById('bookingSlot').value);
+
+    // Directly go to payment portal
+    window.location.href = "payment.html";
+  }
+
+  function bookImmediately() {
+    if (!isUserLoggedIn()) {
+      alert("Please log in to book a provider.");
+      window.location.href = "login.html";
+      return;
     }
-  </script>
+    localStorage.setItem('bookingDate', new Date().toISOString().split('T')[0]);
+    localStorage.setItem('bookingSlot', 'Immediate Booking');
+    window.location.href = "payment.html";
+  }
+</script>
+
 </body>
 </html>

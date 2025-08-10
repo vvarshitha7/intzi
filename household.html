@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Household Labour - INTZI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;background:#f8f9ff;color:#222;}
+.navbar{background:#5f64ec;display:flex;align-items:center;padding:0 40px;height:60px;}
+.navbar .brand{color:#fff;font-weight:700;font-size:1.5rem;letter-spacing:2px;text-transform:uppercase;}
+.navbar ul{list-style:none;display:flex;margin:0 0 0 40px;padding:0;flex:1;justify-content:space-between;}
+.navbar ul li{text-align:center;}
+.navbar ul li a{color:#bdc3c7;text-decoration:none;font-weight:600;padding:18px 14px;display:block;border-radius:4px;}
+.navbar ul li a.active{background:rgba(248,249,255,0.8);color:#5f64ec;box-shadow:inset 0 -3px 0 0 #5f64ec;font-weight:700;}
+.container{max-width:1100px;margin:40px auto;padding:0 20px;display:flex;gap:23px;}
+.sidebar{width:230px;background:#fff;padding:18px 13px 18px 18px;border-radius:15px;box-shadow:0 4px 16px #e1e3f8;}
+.sidebar h3{color:#5f64ec;margin:0 0 8px 0;font-size:1.06em;}
+.sidebar ul{padding-left:16px;margin:6px 0 18px 0;}
+.sidebar ul li{margin-bottom:7px;color:#444;font-size:0.97em;}
+.main-content{flex:1;}
+.page-title{font-size:1.4em;font-weight:700;color:#5f64ec;margin-bottom:19px;text-align:center;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:17px;}
+.card{background:#fff;padding:18px 12px 17px 12px;border-radius:15px;box-shadow:0 3px 14px rgba(82,85,201,0.10);text-align:center;transition:.3s;}
+.card:hover{transform:translateY(-5px);box-shadow:0px 10px 22px #b7bcf7;}
+.card img{width:85px;height:85px;border-radius:50%;margin-bottom:10px;object-fit:cover;}
+.name{font-weight:700;font-size:1.05em;color:#353868;}
+.exp,.spec{font-size:0.95em;}
+.spec{color:#5f64ec;font-weight:600;}
+.price{margin-top:5px;font-size:1em;color:#222;font-weight:600;}
+.loc{font-size:0.89em;color:#777;}
+.dist{font-size:0.90em;color:#18b194;font-weight:600;margin-top:4px;}
+.save-btn{margin-top:10px;background:#5f64ec;color:white;border:none;padding:5px 14px;border-radius:20px;font-size:0.93em;cursor:pointer;}
+.save-btn.saved{background:#333;}
+@media(max-width:800px){.container{flex-direction:column;}.sidebar{width:100%;margin-bottom:17px;}}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="brand">INTZI</div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="profile.html">My Profile</a></li>
+  </ul>
+</nav>
+<div class="container">
+  <aside class="sidebar">
+    <h3>Quick Fixes</h3>
+    <ul>
+      <li>Basic cleaning</li>
+      <li>Dish washing</li>
+      <li>Clothes ironing</li>
+      <li>Laundry</li>
+      <li>Fridge cleaning</li>
+    </ul>
+    <h3>Soon</h3>
+    <ul>
+      <li>Deep cleaning</li>
+      <li>Bathroom scrubbing</li>
+      <li>Gardening help</li>
+      <li>Sofa shampooing</li>
+      <li>Regular maid service</li>
+    </ul>
+  </aside>
+  <div class="main-content">
+    <div class="page-title">Household Labour Near You</div>
+    <div class="grid">
+      <div class="card">
+        <img src="https://randomuser.me/api/portraits/men/61.jpg">
+        <div class="name">Vinod Kumar</div>
+        <div class="exp">12 yrs experience</div>
+        <div class="spec">House Cleaning</div>
+        <div class="price">₹200/hr</div>
+        <div class="dist">2.7 km away</div>
+        <div class="loc">Delhi</div>
+        <button class="save-btn" onclick="toggleSave(this)">Save</button>
+      </div>
+      <div class="card">
+        <img src="https://randomuser.me/api/portraits/women/65.jpg">
+        <div class="name">Radhika Maid</div>
+        <div class="exp">6 yrs experience</div>
+        <div class="spec">Laundry</div>
+        <div class="price">₹120/hr</div>
+        <div class="dist">1.2 km away</div>
+        <div class="loc">Lucknow</div>
+        <button class="save-btn" onclick="toggleSave(this)">Save</button>
+      </div>
+      <div class="card">
+        <img src="https://randomuser.me/api/portraits/men/21.jpg">
+        <div class="name">Anil Helper</div>
+        <div class="exp">10 yrs experience</div>
+        <div class="spec">Utensil Washing</div>
+        <div class="price">₹160/hr</div>
+        <div class="dist">1.9 km away</div>
+        <div class="loc">Kolkata</div>
+        <button class="save-btn" onclick="toggleSave(this)">Save</button>
+      </div>
+      <div class="card">
+        <img src="https://randomuser.me/api/portraits/women/31.jpg">
+        <div class="name">Seema Maid</div>
+        <div class="exp">8 yrs experience</div>
+        <div class="spec">Cooking Aid</div>
+        <div class="price">₹170/hr</div>
+        <div class="dist">2.4 km away</div>
+        <div class="loc">Jaipur</div>
+        <button class="save-btn" onclick="toggleSave(this)">Save</button>
+      </div>
+      <div class="card">
+        <img src="https://randomuser.me/api/portraits/men/10.jpg">
+        <div class="name">Mohan Chores</div>
+        <div class="exp">5 yrs experience</div>
+        <div class="spec">Sweeping & Mopping</div>
+        <div class="price">₹110/hr</div>
+        <div class="dist">2.3 km away</div>
+        <div class="loc">Bangalore</div>
+        <button class="save-btn" onclick="toggleSave(this)">Save</button>
+      </div>
+      <div class="card">
+        <img src="https://randomuser.me/api/portraits/women/40.jpg">
+        <div class="name">Kavita B</div>
+        <div class="exp">7 yrs experience</div>
+        <div class="spec">Baby Care</div>
+        <div class="price">₹200/hr</div>
+        <div class="dist">0.7 km away</div>
+        <div class="loc">Mumbai</div>
+        <button class="save-btn" onclick="toggleSave(this)">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleSave(btn){
+  btn.classList.toggle('saved');
+  btn.textContent = btn.classList.contains('saved') ? "Saved" : "Save";
+}
+</script>
+</body>
+</html>

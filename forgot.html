@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Forgot Password - ServiceHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f3f6fd;
+        }
+        /* NAVIGATION BAR */
+        .navbar {
+            background: #7377ea;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 56px;
+        }
+        .navbar .logo {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.5em;
+            letter-spacing: 0.08em;
+            margin-left: 36px;
+            margin-right: 42px;
+        }
+        .navbar nav {
+            display: flex;
+        }
+        .navbar nav a {
+            padding: 0 26px;
+            line-height: 56px;
+            color: #eee;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.07em;
+            transition: background 0.2s, color 0.2s;
+            position: relative;
+        }
+        .navbar nav a.active {
+            background: #dfe2fa;
+            color: #534fe3;
+            font-weight: 600;
+        }
+        .navbar nav a:not(.active):hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+
+        /* FORM CONTAINER */
+        .forgot-container {
+            max-width: 370px;
+            margin: 56px auto 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            padding: 38px 32px 34px 32px;
+            box-shadow: 0 2px 16px rgba(80, 78, 180, 0.07);
+        }
+        .forgot-container h2 {
+            text-align: center;
+            font-size: 1.6em;
+            color: #534fe3;
+            margin-bottom: 22px;
+            letter-spacing: 0.05em;
+        }
+        .forgot-container label {
+            display: block;
+            margin-bottom: 4px;
+            color: #444;
+            font-weight: 500;
+        }
+        .forgot-container input[type="text"],
+        .forgot-container input[type="email"],
+        .forgot-container input[type="tel"] {
+            width: 100%;
+            padding: 10px 9px;
+            margin-bottom: 18px;
+            border: 1px solid #b5bddf;
+            border-radius: 4px;
+            background: #f5f7fc;
+            font-size: 1em;
+            transition: border 0.2s;
+        }
+        .forgot-container input:focus {
+            border-color: #534fe3;
+            outline: none;
+        }
+        .forgot-container button {
+            width: 100%;
+            padding: 10px 0;
+            background: #534fe3;
+            color: #fff;
+            border: none;
+            font-size: 1em;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .forgot-container button:hover {
+            background: #434fc0;
+        }
+        .forgot-container .links {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 0.99em;
+        }
+        .forgot-container .links a {
+            color: #534fe3;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        .forgot-container .links a:hover {
+            text-decoration: underline;
+        }
+        @media(max-width: 520px){
+            .forgot-container {padding: 22px 7vw;}
+            .navbar .logo {margin-left:16px; margin-right:12px;}
+            .navbar nav a{padding: 0 10px; font-size: 1em;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">INTZI</div>
+        <nav>
+            <a href="homepage.html">Home</a>
+            <a href="services2.html">Services</a>
+            <a href="bookings.html">Bookings</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="profile.html">My Profile</a>
+            <a href="help.html">Help/Support</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Create Account</a>
+        </nav>
+    </div>
+
+    <!-- FORGOT PASSWORD FORM -->
+    <div class="forgot-container">
+        <h2>Forgot Password</h2>
+        <form>
+            <label for="identifier">Email or Phone Number</label>
+            <input type="text" id="identifier" name="identifier" required placeholder="Enter your registered Email or Phone">
+
+            <button type="submit">Send Reset Link</button>
+        </form>
+        <div class="links">
+            Remembered your password?
+            <a href="login.html">Login</a>
+        </div>
+    </div>
+
+</body>
+</html>

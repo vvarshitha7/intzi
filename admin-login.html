@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard - INTZI</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;background:#f8f9ff;color:#222;}
+h1{text-align:center;color:#5f64ec;margin-top:20px;}
+.container{max-width:1100px;margin:20px auto;padding:0 15px;}
+form{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:20px;}
+form label{font-weight:600;display:block;margin-top:10px;}
+form input, form select, form textarea{width:100%;padding:8px;margin-top:4px;border:1px solid #ccc;border-radius:6px;}
+form button{margin-top:12px;background:#5f64ec;color:#fff;border:none;padding:10px 15px;border-radius:6px;font-weight:600;cursor:pointer;}
+form button:hover{background:#3a3fc8;}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.08);}
+th,td{padding:10px;border-bottom:1px solid #eee;text-align:left;}
+th{background:#f1f2fa;color:#5f64ec;}
+tr:hover{background:#fafbff;}
+button.action-btn{padding:5px 9px;border:none;border-radius:4px;cursor:pointer;font-size:0.85em;}
+.edit{background:#18c799;color:#fff;}
+.save{background:#5f64ec;color:#fff;}
+.cancel{background:#999;color:#fff;}
+.delete{background:#c9184a;color:#fff;}
+</style>
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+<div class="container">
+
+  <!-- Add Producer Form -->
+  <form id="addProducerForm">
+    <h3 style="color:#5f64ec;margin-top:0;">Add New Producer</h3>
+    <label>Category</label>
+    <select id="category" required>
+      <option value="">Select Category</option>
+      <option value="Tailor">Tailor</option>
+      <option value="Mehendi Artist">Mehendi Artist</option>
+      <option value="Beautician">Beautician</option>
+      <option value="Household Labour">Household Labour</option>
+      <option value="Food Catering">Food Catering</option>
+    </select>
+    <label>Name</label><input type="text" id="name" required>
+    <label>Age</label><input type="number" id="age" required>
+    <label>Phone No</label><input type="tel" id="phone" required>
+    <label>Address</label><textarea id="address" rows="2" required></textarea>
+    <label>Specialisation</label><input type="text" id="specialisation" required>
+    <label>Soon (extra info)</label><input type="text" id="soon">
+    <button type="submit">Add Producer</button>
+  </form>
+
+  <!-- Table -->
+  <table id="producersTable">
+    <thead>
+      <tr>
+        <th>Category</th><th>Name</th><th>Age</th><th>Phone</th><th>Address</th><th>Specialisation</th><th>Soon</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+let producers = JSON.parse(localStorage.getItem("producers")) || [];
+
+// Render normal table rows
+function renderTable(){
+  const tbody = document.querySelector("#producersTable tbody");
+  tbody.innerHTML = "";
+  producers.forEach((p, i) => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${p.category}</td>
+        <td>${p.name}</td>
+        <td>${p.age}</td>
+        <td>${p.phone}</td>
+        <td>${p.address}</td>
+        <td>${p.specialisation}</td>
+        <td>${p.soon}</td>
+        <td>
+          <button class="action-btn edit" onclick="editRow(${i})">Edit</button>
+          <button class="action-btn delete" onclick="deleteProducer(${i})">Delete</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+// Show editable inputs for one row
+function editRow(index){
+  const tbody = document.querySelector("#producersTable tbody");
+  const p = producers[index];
+  tbody.rows[index].innerHTML = `
+    <td><select id="editCat${index}">
+      <option ${p.category==='Tailor'?'selected':''}>Tailor</option>
+      <option ${p.category==='Mehendi Artist'?'selected':''}>Mehendi Artist</option>
+      <option ${p.category==='Beautician'?'selected':''}>Beautician</option>
+      <option ${p.category==='Household Labour'?'selected':''}>Household Labour</option>
+      <option ${p.category==='Food Catering'?'selected':''}>Food Catering</option>
+    </select></td>
+    <td><input type="text" id="editName${index}" value="${p.name}"></td>
+    <td><input type="number" id="editAge${index}" value="${p.age}"></td>
+    <td><input type="text" id="editPhone${index}" value="${p.phone}"></td>
+    <td><input type="text" id="editAddress${index}" value="${p.address}"></td>
+    <td><input type="text" id="editSpec${index}" value="${p.specialisation}"></td>
+    <td><input type="text" id="editSoon${index}" value="${p.soon}"></td>
+    <td>
+      <button class="action-btn save" onclick="saveRow(${index})">Save</button>
+      <button class="action-btn cancel" onclick="renderTable()">Cancel</button>
+    </td>
+  `;
+}
+
+// Save edited row
+function saveRow(index){
+  producers[index] = {
+    category: document.getElementById(`editCat${index}`).value,
+    name: document.getElementById(`editName${index}`).value,
+    age: document.getElementById(`editAge${index}`).value,
+    phone: document.getElementById(`editPhone${index}`).value,
+    address: document.getElementById(`editAddress${index}`).value,
+    specialisation: document.getElementById(`editSpec${index}`).value,
+    soon: document.getElementById(`editSoon${index}`).value
+  };
+  localStorage.setItem("producers", JSON.stringify(producers));
+  renderTable();
+}
+
+// Delete
+function deleteProducer(index){
+  if(confirm("Delete this producer?")){
+    producers.splice(index, 1);
+    localStorage.setItem("producers", JSON.stringify(producers));
+    renderTable();
+  }
+}
+
+// Add
+document.getElementById("addProducerForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const producer = {
+    category: document.getElementById("category").value,
+    name: document.getElementById("name").value,
+    age: document.getElementById("age").value,
+    phone: document.getElementById("phone").value,
+    address: document.getElementById("address").value,
+    specialisation: document.getElementById("specialisation").value,
+    soon: document.getElementById("soon").value
+  };
+  producers.push(producer);
+  localStorage.setItem("producers", JSON.stringify(producers));
+  this.reset();
+  renderTable();
+});
+
+renderTable();
+</script>
+</body>
+</html>

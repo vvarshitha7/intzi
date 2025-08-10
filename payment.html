@@ -136,10 +136,20 @@
 </head>
 
 <body>
+  <script>if (!isUserLoggedIn()) {
+    alert("Please log in first.");
+    window.location.href = "login.html";
+    }
+    </script>
+
+
   <!-- Payment form container -->
   <div class="payment-container" id="payForm">
     <h2>Payment Portal</h2>
-
+   <div class="payment-summary" style="margin-bottom: 20px; font-weight:600; color:#5f64ec; text-align:center;">
+  Booking Date: <span id="bookingDateDisplay">Loading...</span><br/>
+  Time Slot: <span id="bookingSlotDisplay">Loading...</span>
+   </div>
     <form class="payment-form" onsubmit="return paymentSuccess();">
       <label for="cardholderName">Cardholder Name</label>
       <input type="text" id="cardholderName" name="cardholderName" placeholder="Name" required />
@@ -207,6 +217,15 @@
       return false;
     }
   </script>
+  <script>
+  // Show booking details stored from previous page
+  document.getElementById('bookingDateDisplay').textContent = 
+    localStorage.getItem('bookingDate') || 'Not set';
+
+  document.getElementById('bookingSlotDisplay').textContent = 
+    localStorage.getItem('bookingSlot') || 'Not set';
+</script>
+
 </body>
 
 </html>

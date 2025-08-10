@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard - INTZI</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;background:#f8f9ff;color:#222;}
+.navbar{background:#5f64ec;color:#fff;padding:15px;text-align:center;font-weight:700;font-size:1.3em;}
+.container{max-width:1000px;margin:30px auto;padding:0 15px;}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left;}
+th{background:#f1f2fa;color:#5f64ec;}
+tr:hover{background:#f9f9ff;}
+.btn{padding:5px 10px;border:none;border-radius:6px;cursor:pointer;font-size:0.9em;}
+.edit{background:#18c799;color:white;}
+.delete{background:#c9184a;color:white;}
+.filter-bar{margin-bottom:15px;}
+select{padding:7px;border-radius:6px;border:1px solid #ccc;}
+</style>
+</head>
+<body>
+<div class="navbar">Admin Dashboard - Manage Producers</div>
+<div class="container">
+  <div class="filter-bar">
+    <label>Filter by Category:</label>
+    <select id="categoryFilter" onchange="renderTable()">
+      <option value="all">All</option>
+      <option value="Tailor">Tailor</option>
+      <option value="Mehendi Artist">Mehendi Artist</option>
+      <option value="Beautician">Beautician</option>
+      <option value="Household Labour">Household Labour</option>
+      <option value="Food Catering">Food Catering</option>
+    </select>
+  </div>
+  <table id="producerTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price/hr</th>
+        <th>Location</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+<script>
+// Redirect if not logged as admin
+if(localStorage.getItem("adminLogged")!=="true"){
+  window.location.href="admin-login.html";
+}
+
+// Sample producer data
+let producers = [
+  {name:"Aisha Tailor", category:"Tailor", price:350, location:"Delhi"},
+  {name:"Simran Mehendi", category:"Mehendi Artist", price:500, location:"Jaipur"},
+  {name:"Nisha Beauty", category:"Beautician", price:400, location:"Mumbai"},
+  {name:"Vinod Kumar", category:"Household Labour", price:250, location:"Delhi"},
+  {name:"Raj Catering", category:"Food Catering", price:600, location:"Delhi"},
+  {name:"Arjun Mehta", category:"Tailor", price:370, location:"Jaipur"}
+];
+
+function renderTable(){
+  const filter=document.getElementById("categoryFilter").value;
+  const tbody=document.querySelector("#producerTable tbody");
+  tbody.innerHTML="";
+  producers
+    .filter(p=>filter==="all" || p.category===filter)
+    .forEach((p,index)=>{
+      tbody.innerHTML += `
+        <tr>
+          <td>${p.name}</td>
+          <td>${p.category}</td>
+          <td>₹${p.price}</td>
+          <td>${p.location}</td>
+          <td>
+            <button class="btn edit" onclick="editProducer(${index})">Edit</button>
+            <button class="btn delete" onclick="deleteProducer(${index})">Delete</button>
+          </td>
+        </tr>
+      `;
+    });
+}
+renderTable();
+
+function editProducer(index){
+  const newName=prompt("Edit Name:", producers[index].name);
+  if(newName) producers[index].name=newName;
+  const newPrice=prompt("Edit Price/hr:", producers[index].price);
+  if(newPrice) producers[index].price=parseInt(newPrice);
+  const newLoc=prompt("Edit Location:", producers[index].location);
+  if(newLoc) producers[index].location=newLoc;
+  renderTable();
+}
+
+function deleteProducer(index){
+  if(confirm("Are you sure to delete this producer?")){
+    producers.splice(index,1);
+    renderTable();
+  }
+}
+</script>
+</body>
+</html>
