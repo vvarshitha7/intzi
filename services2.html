@@ -12,55 +12,52 @@
       background: #f8f9ff;
       color: #222;
     }
-    /* Navbar styling */
-    .navbar {
-      background: #5f64ec;
-      display: flex;
-      align-items: center;
-      padding: 0 40px;
-      height: 60px;
-      user-select: none;
-    }
-    .navbar .brand {
-      color: #fff;
-      font-weight: 700;
-      font-size: 1.5rem;
-      letter-spacing: 2px;
-      flex-shrink: 0;
-      text-transform: uppercase;
-    }
-    .navbar ul {
-      list-style: none;
-      display: flex;
-      flex-grow: 1;
-      justify-content: space-between;
-      margin: 0 0 0 40px;
-      padding: 0;
-    }
-    .navbar ul li {
-      flex: 1;
-      text-align: center;
-    }
-    .navbar ul li a {
-      color: #bdc3c7;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 18px 0;
-      display: block;
-      border-radius: 4px 4px 0 0;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .navbar ul li a:hover {
-      background-color: #34495e;
-      color: #ecf0f1;
-    }
-    .navbar ul li a.active {
-      background-color: rgba(248, 249, 255, 0.8);
-      color: #5f64ec;
-      box-shadow: inset 0 -3px 0 0 #5f64eccc;
-      font-weight: 700;
-    }
+   .navbar {
+  background: #7377ea;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0;
+}
+
+.navbar .brand {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.5em;
+  letter-spacing: 0.08em;
+  margin-left: 36px;
+  margin-right: 42px;
+  white-space: nowrap;
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.navbar ul li {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li a {
+  display: block;
+  padding: 0 26px;
+  line-height: 56px;
+  color: #eee;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar ul li a:hover,
+.navbar ul li a.active {
+  background: #575dce;
+  color: #fff;
+}
 
     /* Page layout */
     .page-container {
@@ -246,8 +243,7 @@
 </head>
 <body>
 
-    <!-- navbar.html -->
- <nav class="navbar">
+  <nav class="navbar">
   <div class="brand">INTZI</div>
   <ul>
     <li><a href="homepage.html">Home</a></li>
@@ -258,7 +254,8 @@
     <li><a href="helpsupport.html">Help/Support</a></li>
     <li><a href="login.html">Login</a></li>
   </ul>
- </nav>
+</nav>
+
 
   <div class="page-container">
 
@@ -280,11 +277,11 @@
           Catering
         </a>
         <a href="mehendi.html">
-          <img src="images/Mehendi.jpg" alt="Mehendi icon" />
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSWIrRORXwpaB5DDaH5R0Pi7CGoiHy3T5-Jg&s" alt="Mehendi icon" />
           Mehendi
         </a>
         <a href="beautian.html">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSWIrRORXwpaB5DDaH5R0Pi7CGoiHy3T5-Jg&s" alt="Beautician icon" />
+          <img src="data:image/jpeg;base64,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" alt="Beautician icon" />
           Beautician
         </a>
         <a href="household.html">
@@ -293,44 +290,45 @@
         </a>
       </nav>
 
-      <!-- Providers Grid -->
-      <section class="providers-grid" aria-label="Service providers">
-        <article class="provider-card" tabindex="0" aria-label="Provider: Aisha Tailor, 5 years experience, bridal wear specialist">
-          <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Aisha Tailor" class="provider-image" />
-          <div class="provider-name">Aisha Tailor</div>
-          <div class="provider-experience">5 years experience</div>
-          <div class="provider-specialization">Bridal Wear Specialist</div>
-          <button class="save-btn" aria-pressed="false" onclick="toggleSave(this, event)">Save</button>
-        </article>
-        <article class="provider-card" tabindex="0" aria-label="Provider: Raj Catering, 8 years experience, vegetarian specialties">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Raj Catering" class="provider-image" />
-          <div class="provider-name">Raj Catering</div>
-          <div class="provider-experience">8 years experience</div>
-          <div class="provider-specialization">Vegetarian specialties</div>
-          <button class="save-btn" aria-pressed="false" onclick="toggleSave(this, event)">Save</button>
-        </article>
-        <article class="provider-card" tabindex="0" aria-label="Provider: Simran Mehendi, 6 years experience, traditional and modern styles">
-          <img src="https://randomuser.me/api/portraits/women/21.jpg" alt="Simran Mehendi" class="provider-image" />
-          <div class="provider-name">Simran Mehendi</div>
-          <div class="provider-experience">6 years experience</div>
-          <div class="provider-specialization">Traditional and Modern Styles</div>
-          <button class="save-btn" aria-pressed="false" onclick="toggleSave(this, event)">Save</button>
-        </article>
-        <article class="provider-card" tabindex="0" aria-label="Provider: Nisha Beautician, 4 years experience, bridal and party makeup">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Nisha Beautician" class="provider-image" />
-          <div class="provider-name">Nisha Beautician</div>
-          <div class="provider-experience">4 years experience</div>
-          <div class="provider-specialization">Bridal and Party Makeup</div>
-          <button class="save-btn" aria-pressed="false" onclick="toggleSave(this, event)">Save</button>
-        </article>
-        <article class="provider-card" tabindex="0" aria-label="Provider: Vinod Household, 10 years experience, cleaning & maintenance">
-          <img src="https://randomuser.me/api/portraits/men/47.jpg" alt="Vinod Household" class="provider-image" />
-          <div class="provider-name">Vinod Household</div>
-          <div class="provider-experience">10 years experience</div>
-          <div class="provider-specialization">Cleaning & Maintenance</div>
-          <button class="save-btn" aria-pressed="false" onclick="toggleSave(this, event)">Save</button>
-        </article>
-     \
+      <<!-- Providers Grid -->
+<section class="providers-grid" aria-label="Service providers">
+  <article class="provider-card" tabindex="0" aria-label="Provider: Aisha Tailor, 5 years experience, bridal wear specialist">
+    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Aisha Tailor" class="provider-image" />
+    <div class="provider-name">Aisha Tailor</div>
+    <div class="provider-experience">5 years experience</div>
+    <div class="provider-specialization">Bridal Wear Specialist</div>
+    <button class="save-btn" onclick="window.location.href='booking-schedule.html'">Book Now</button>
+  </article>
+  <article class="provider-card" tabindex="0" aria-label="Provider: Raj Catering, 8 years experience, vegetarian specialties">
+    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Raj Catering" class="provider-image" />
+    <div class="provider-name">Raj Catering</div>
+    <div class="provider-experience">8 years experience</div>
+    <div class="provider-specialization">Vegetarian specialties</div>
+    <button class="save-btn" onclick="window.location.href='booking-schedule.html'">Book Now</button>
+  </article>
+  <article class="provider-card" tabindex="0" aria-label="Provider: Simran Mehendi, 6 years experience, traditional and modern styles">
+    <img src="https://randomuser.me/api/portraits/women/21.jpg" alt="Simran Mehendi" class="provider-image" />
+    <div class="provider-name">Simran Mehendi</div>
+    <div class="provider-experience">6 years experience</div>
+    <div class="provider-specialization">Traditional and Modern Styles</div>
+    <button class="save-btn" onclick="window.location.href='booking-schedule.html'">Book Now</button>
+  </article>
+  <article class="provider-card" tabindex="0" aria-label="Provider: Nisha Beautician, 4 years experience, bridal and party makeup">
+    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Nisha Beautician" class="provider-image" />
+    <div class="provider-name">Nisha Beautician</div>
+    <div class="provider-experience">4 years experience</div>
+    <div class="provider-specialization">Bridal and Party Makeup</div>
+    <button class="save-btn" onclick="window.location.href='booking-schedule.html'">Book Now</button>
+  </article>
+  <article class="provider-card" tabindex="0" aria-label="Provider: Vinod Household, 10 years experience, cleaning & maintenance">
+    <img src="https://randomuser.me/api/portraits/men/47.jpg" alt="Vinod Household" class="provider-image" />
+    <div class="provider-name">Vinod Household</div>
+    <div class="provider-experience">10 years experience</div>
+    <div class="provider-specialization">Cleaning & Maintenance</div>
+    <button class="save-btn" onclick="window.location.href='booking-schedule.html'">Book Now</button>
+  </article>
+</section>
+
 
     </main>
 
