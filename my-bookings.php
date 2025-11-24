@@ -12,6 +12,12 @@ $sql = "SELECT b.*, sp.provider_name, sp.profile_image, sc.category_name
         ORDER BY b.created_at DESC";
 $bookings_result = $conn->query($sql);
 
+// Get success/error messages
+$success = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
+$error = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
+unset($_SESSION['success_message']);
+unset($_SESSION['error_message']);
+
 $success_message = isset($_SESSION['booking_success']) ? $_SESSION['booking_success'] : '';
 unset($_SESSION['booking_success']);
 ?>
@@ -105,6 +111,11 @@ unset($_SESSION['booking_success']);
             display: inline-block;
         }
 
+        .btn-primary {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
         .btn-outline {
             border: 2px solid var(--primary-blue);
             color: var(--primary-blue);
@@ -121,13 +132,23 @@ unset($_SESSION['booking_success']);
             padding: 3rem 0;
         }
 
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
         .alert-success {
             background: #d1fae5;
             color: #065f46;
             border-left: 4px solid var(--success);
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid var(--danger);
         }
 
         .booking-card {
@@ -214,8 +235,20 @@ unset($_SESSION['booking_success']);
             <h1 style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem;">My Bookings</h1>
             
             <?php if($success_message): ?>
-                <div class="alert-success">
+                <div class="alert alert-success">
                     <i class="fas fa-check-circle"></i> <?php echo $success_message; ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if($success): ?>
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> <?php echo $success; ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if($error): ?>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
                 </div>
             <?php endif; ?>
             
@@ -244,6 +277,12 @@ unset($_SESSION['booking_success']);
                                 <span><i class="fas fa-hourglass-half"></i> <?php echo $booking['duration_hours']; ?> hours</span>
                                 <span><i class="fas fa-rupee-sign"></i> ₹<?php echo number_format($booking['total_amount'], 2); ?></span>
                             </div>
+                            
+                            <?php if($booking['address']): ?>
+                            <div style="margin-top: 0.8rem; color: var(--text-light); font-size: 0.9rem;">
+                                <i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($booking['address']); ?>
+                            </div>
+                            <?php endif; ?>
                         </div>
                         
                         <div style="text-align: right;">
@@ -251,10 +290,22 @@ unset($_SESSION['booking_success']);
                                style="color: var(--primary-blue); font-weight: 600; display: block; margin-bottom: 0.5rem;">
                                 View Details <i class="fas fa-arrow-right"></i>
                             </a>
-                            <?php if($booking['booking_status'] == 'completed' && !$booking['reviewed']): ?>
-                                <a href="#" style="color: var(--warning); font-weight: 600;">
-                                    <i class="fas fa-star"></i> Write Review
-                                </a>
+                            
+                            <?php if($booking['booking_status'] == 'completed'): ?>
+                                <?php 
+                                // Check if already reviewed
+                                $check_review = $conn->query("SELECT review_id FROM reviews WHERE booking_id = {$booking['booking_id']} AND user_id = {$_SESSION['user_id']}");
+                                if($check_review->num_rows == 0): 
+                                ?>
+                                    <a href="write-review.php?booking_id=<?php echo $booking['booking_id']; ?>" 
+                                       style="color: var(--warning); font-weight: 600; display: inline-block; margin-top: 0.5rem;">
+                                        <i class="fas fa-star"></i> Write Review
+                                    </a>
+                                <?php else: ?>
+                                    <span style="color: var(--success); font-weight: 600; display: inline-block; margin-top: 0.5rem;">
+                                        <i class="fas fa-check-circle"></i> Review Submitted
+                                    </span>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>
