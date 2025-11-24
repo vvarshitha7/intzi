@@ -1,365 +1,388 @@
-# Intzi - Hyperlocal Service Platform
+# Intzi - Hyperlocal Multi-Service Platform
 
-Intzi is a hyperlocal, multi-service platform that connects users with local service providers for immediate and scheduled bookings across tailoring, beauty services, food/catering, and household help. The platform empowers financially dependent individuals by providing flexible income opportunities through dignified work.
+![Intzi Platform](https://img.shields.io/badge/version-1.0.0-blue) ![PHP](https://img.shields.io/badge/PHP-7.4+-purple) ![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange) ![License](https://img.shields.io/badge/license-MIT-green)
 
-## 📋 Table of Contents
+Intzi is a comprehensive hyperlocal service platform that connects users with local service providers for tailoring, beauty services, food/catering, and household help. The platform empowers financially dependent individuals by providing flexible income opportunities through dignified work.
 
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Database Setup](#database-setup)
-- [Configuration](#configuration)
-- [File Structure](#file-structure)
-- [Usage](#usage)
-- [User Features](#user-features)
-- [Screenshots](#screenshots)
-- [Troubleshooting](#troubleshooting)
-- [Future Enhancements](#future-enhancements)
-- [Contributing](#contributing)
-- [License](#license)
+## 🌟 Key Features
 
-## ✨ Features
-
-### For Users
-- **Browse Services**: Explore local service providers across multiple categories
-- **Advanced Filtering**: Sort by rating, price, bookings, and category
-- **Provider Profiles**: View detailed provider information, skills, reviews, and ratings
-- **Instant & Scheduled Booking**: Book services immediately or schedule for later
-- **Booking Management**: Track all bookings with status updates
-- **Secure Authentication**: User registration and login system
-- **Profile Management**: Update personal information and preferences
-- **Review System**: Rate and review service providers after service completion
+### For Customers
+- 🔍 Browse and search local service providers
+- 📅 Book services (instant or scheduled)
+- 💳 Secure demo payment gateway
+- ⭐ Rate and review service providers
+- 📊 Track booking history
+- 👤 Profile management
 
 ### For Service Providers
-- **Professional Profiles**: Showcase skills, experience, and portfolio
-- **Rating & Reviews**: Build reputation through customer feedback
-- **Availability Management**: Set availability status
-- **Booking Notifications**: Receive booking requests from customers
+- 📝 Easy registration and approval process
+- 📈 Professional dashboard
+- 💼 Booking management (accept/reject requests)
+- 💰 Earnings tracking and analytics
+- ⭐ Review management
+- 📱 Real-time booking notifications
 
-## 🛠 Technologies Used
+### For Administrators
+- 🛡️ Complete platform control
+- ✅ Provider approval system
+- 👥 User management
+- 📊 Booking oversight
+- 🏷️ Category management
+- 📈 Revenue analytics
 
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Backend**: PHP 7.4+
-- **Database**: MySQL (via phpMyAdmin)
-- **Server**: XAMPP (Apache + MySQL)
-- **Styling**: Custom CSS with Poppins Font (Google Fonts)
-- **Icons**: Font Awesome 6.4.0
-- **Design**: Responsive Blue-themed UI
+## 🛠 Technology Stack
 
-## 📦 Prerequisites
+**Frontend:**
+- HTML5, CSS3, JavaScript
+- Font Awesome 6.4.0
+- Google Fonts (Poppins)
+- Responsive Design
 
-Before you begin, ensure you have the following installed:
+**Backend:**
+- PHP 7.4+
+- MySQL 8.0+
+- Session-based Authentication
+- Password Hashing (BCrypt)
 
-- [XAMPP](https://www.apachefriends.org/download.html) (v7.4 or higher)
-  - Apache Server
-  - MySQL Database
-  - PHP 7.4+
-- Web Browser (Chrome, Firefox, Edge, or Safari)
-- Text Editor (VS Code, Sublime Text, or any IDE)
+**Server:**
+- Apache (via XAMPP)
+- phpMyAdmin for database management
 
-## 🚀 Installation
+## 📋 Prerequisites
 
-### Step 1: Download/Clone Project
+Before installation, ensure you have:
+- [XAMPP](https://www.apachefriends.org/) (v7.4 or higher)
+- Web Browser (Chrome, Firefox, Edge recommended)
+- Text Editor (VS Code, Sublime Text, etc.)
 
-1. Download or clone this repository
-2. Extract the project folder if downloaded as ZIP
+## 🚀 Installation Guide
 
-### Step 2: Place in XAMPP Directory
+### Step 1: Setup XAMPP
 
-1. Copy the entire `intzi_db` folder
-2. Paste it into your XAMPP `htdocs` directory
-   - **Windows**: `C:\xampp\htdocs\`
-   - **Mac**: `/Applications/XAMPP/htdocs/`
-   - **Linux**: `/opt/lampp/htdocs/`
+1. Download and install XAMPP from [apachefriends.org](https://www.apachefriends.org/)
+2. Start **Apache** and **MySQL** from XAMPP Control Panel
 
-### Step 3: Start XAMPP Services
+### Step 2: Extract Project Files
 
-1. Open XAMPP Control Panel
-2. Start **Apache** server
-3. Start **MySQL** database
-4. Verify both show "Running" status
+1. Extract the project ZIP file
+2. Copy the `intzi_db` folder to:
+   - **Windows:** `C:\xampp\htdocs\`
+   - **Mac:** `/Applications/XAMPP/htdocs/`
+   - **Linux:** `/opt/lampp/htdocs/`
 
-## 🗄 Database Setup
+### Step 3: Database Setup
 
-### Method 1: Using phpMyAdmin
+1. Open phpMyAdmin: `http://localhost/phpmyadmin`
+2. Click **"New"** to create a database
+3. Database name: `intzi_db`
+4. Click **"Import"** tab
+5. Choose file: `intzi_database.sql`
+6. Click **"Go"** to import
 
-1. Open your browser and go to: `http://localhost/phpmyadmin`
-2. Click on **"New"** in the left sidebar
-3. Create a database named: `intzi_db`
-4. Click on the `intzi_db` database
-5. Go to the **"Import"** tab
-6. Click **"Choose File"** and select `intzi_database.sql`
-7. Click **"Go"** to import the database
-8. Verify all tables are created successfully:
-   - users
-   - service_categories
-   - service_providers
-   - bookings
-   - reviews
-
-### Method 2: Using MySQL Command Line
-mysql -u root -p
+**Alternative:** Run this SQL in phpMyAdmin:
 CREATE DATABASE intzi_db;
-USE intzi_db;
-SOURCE /path/to/intzi_database.sql;
 
+Then import the `intzi_database.sql` file.
 
-## ⚙ Configuration
+### Step 4: Configuration
 
-### Database Configuration
-
-Open `config.php` and verify/update the database credentials:
+Open `config.php` and verify settings:
 
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root'); // Your MySQL username
-define('DB_PASS', ''); // Your MySQL password (empty by default)
-define('DB_NAME', 'intzi_db'); // Database name
-
-
-### Base URL Configuration
-
-Update the base URL in `config.php` if your folder name is different:
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'intzi_db');
 define('BASE_URL', 'http://localhost/intzi_db/');
 
 
-Replace `intzi_db` with your actual folder name.
+### Step 5: Access the Application
 
-## 📁 File Structure
+Open your browser and navigate to:
+- **Customer Site:** `http://localhost/intzi_db/`
+- **Provider Portal:** `http://localhost/intzi_db/provider-login.php`
+- **Admin Panel:** `http://localhost/intzi_db/admin-login.php`
+
+## 📁 Project Structure
 
 intzi_db/
-├── config.php # Database configuration
-├── index.php # Homepage
-├── services.php # Service providers listing
-├── service-details.php # Provider profile page
-├── login.php # User login
-├── register.php # User registration
-├── booking.php # Booking form
-├── my-bookings.php # User bookings dashboard
-├── profile.php # User profile management
-├── logout.php # Logout handler
+├── config.php # Database & app configuration
+├── payment-config.php # Demo payment gateway config
 ├── intzi_database.sql # Database structure & sample data
-├── README.md # This file
+│
+├── Customer Portal (9 files)
+│ ├── index.php # Homepage
+│ ├── services.php # Service provider listing
+│ ├── service-details.php # Provider profile page
+│ ├── login.php # Customer login
+│ ├── register.php # Customer registration
+│ ├── booking.php # Booking form
+│ ├── my-bookings.php # Booking history
+│ ├── profile.php # User profile
+│ └── logout.php # Logout handler
+│
+├── Payment System (5 files)
+│ ├── payment.php # Payment gateway page
+│ ├── process-payment.php # Payment processing
+│ ├── payment-success.php # Success page
+│ ├── payment-failed.php # Failed page
+│ └── write-review.php # Review submission
+│
+├── Provider Portal (8 files)
+│ ├── provider-register.php # Provider registration
+│ ├── provider-login.php # Provider login
+│ ├── provider-dashboard.php # Dashboard overview
+│ ├── provider-bookings.php # Booking management
+│ ├── provider-profile.php # Profile editing
+│ ├── provider-earnings.php # Earnings analytics
+│ ├── provider-reviews.php # Review management
+│ ├── provider-logout.php # Logout handler
+│ └── update-booking-status.php # Booking status handler
+│
+├── Admin Panel (7 files)
+│ ├── admin-login.php # Admin login
+│ ├── admin-dashboard.php # Admin overview
+│ ├── admin-providers.php # Provider management
+│ ├── admin-users.php # User management
+│ ├── admin-bookings.php # Booking oversight
+│ ├── admin-categories.php # Category management
+│ ├── admin-update-provider.php # Provider status handler
+│ └── admin-logout.php # Logout handler
+│
 └── images/
 └── providers/ # Provider profile images
 └── default-provider.jpg
 
 
-## 🎯 Usage
+**Total Files:** 34
 
-### Accessing the Application
+## 🗄 Database Schema
 
-1. Open your web browser
-2. Navigate to: `http://localhost/intzi_db/`
-3. You should see the Intzi homepage
+### Core Tables
 
-### Default Test Credentials
+**users** - Customer accounts
+- user_id, full_name, email, password, phone, address, city, created_at
 
-The database comes with sample data. You can create a new account or use these test credentials:
+**service_providers** - Service provider accounts
+- provider_id, provider_name, email, password, phone, category_id, bio, experience_years, hourly_rate, rating, total_bookings, availability_status, account_status, skills, address, city, profile_image
 
-**Test User Account** (You'll need to register first)
-- Email: `test@example.com`
-- Password: `password123`
+**service_categories** - Service categories
+- category_id, category_name, description, category_icon
 
-### Creating a New Account
+**bookings** - Service bookings
+- booking_id, user_id, provider_id, category_id, booking_type, booking_date, booking_time, duration_hours, total_amount, payment_status, payment_method, payment_date, booking_status, address, special_requirements
 
-1. Click **"Sign Up"** in the navigation
-2. Fill in the registration form:
-   - Full Name
-   - Email Address
-   - Phone Number
-   - Password (minimum 6 characters)
-   - Address (optional)
-   - City (optional)
-3. Click **"Create Account"**
-4. You'll be redirected to login page
+**reviews** - Customer reviews
+- review_id, booking_id, user_id, provider_id, rating, review_text, created_at
 
-### Browsing Services
+**admins** - Administrator accounts
+- admin_id, username, email, password, full_name, role, created_at
 
-1. On the homepage, view featured service providers
-2. Click on any category card to filter services
-3. Use the search bar to find specific services
-4. Click **"Services"** in navigation to browse all providers
+## 👤 Default User Accounts
 
-### Booking a Service
+### Admin Account
+- **URL:** `http://localhost/intzi_db/admin-login.php`
+- **Username:** `admin`
+- **Password:** `admin123`
 
-1. **Login Required**: You must be logged in to book services
-2. Browse and select a service provider
-3. Click **"View Details"** to see full profile
-4. Click **"Book Now"**
-5. Fill in booking details:
-   - Booking Type (Instant/Scheduled)
-   - Date & Time
-   - Duration (hours)
-   - Service Address
-   - Special Requirements
-6. Review the booking summary
-7. Click **"Confirm Booking"**
-8. View your booking in **"My Bookings"** page
+### Test Provider Account
+Create via: `http://localhost/intzi_db/provider-register.php`
+(Requires admin approval)
 
-### Managing Profile
+### Test Customer Account
+Create via: `http://localhost/intzi_db/register.php`
 
-1. Click **"Profile"** in navigation
-2. Update your information:
-   - Full Name
-   - Phone Number
-   - Address
-   - City
-3. Click **"Update Profile"** to save changes
+## 🔄 System Workflows
 
-## 👥 User Features
+### Customer Booking Flow
+1. Customer browses services → Selects provider
+2. Fills booking form (date, time, duration, address)
+3. Proceeds to payment gateway
+4. Completes demo payment (95% success rate)
+5. Booking confirmed → Provider notified
+6. After service completion → Write review
 
-### Guest Users (Not Logged In)
-- ✅ View homepage and browse categories
-- ✅ Browse all service providers
-- ✅ View provider details and reviews
-- ✅ Search and filter services
-- ❌ Cannot book services
-- ❌ Cannot access bookings or profile
+### Provider Management Flow
+1. Provider registers → Account status: `pending`
+2. Admin reviews application in admin panel
+3. Admin approves/rejects provider
+4. If approved → Provider can login and access dashboard
+5. Provider receives booking requests
+6. Provider accepts/rejects bookings
+7. After service → Mark as completed
+8. View earnings and reviews
 
-### Registered Users (Logged In)
-- ✅ All guest features
-- ✅ Book services (instant & scheduled)
-- ✅ Manage bookings
-- ✅ Update profile
-- ✅ Write reviews (after service completion)
-- ✅ View booking history
+### Admin Approval Flow
+1. Admin logs into admin panel
+2. Views pending provider registrations
+3. Reviews provider details (experience, skills, rates)
+4. Approves or suspends provider account
+5. Manages all bookings, users, and categories
+6. Monitors platform revenue
 
-## 📸 Screenshots
+## 💳 Demo Payment Gateway
 
-### Homepage
-- Hero section with search functionality
-- Service categories grid
-- Featured top-rated providers
-- How it works section
+The platform includes a **demo payment gateway** for testing purposes:
 
-### Services Page
-- Advanced filtering (category, sort, search)
-- Provider cards with ratings
-- Quick booking buttons
+### Features
+- Realistic payment interface
+- Multiple payment methods (Card, UPI, Net Banking)
+- 95% success rate simulation
+- Transaction ID generation
+- Payment status tracking
 
-### Service Details
-- Provider profile with bio
-- Skills and expertise showcase
-- Customer reviews section
-- Booking summary sidebar
+### Test Card Details
+Card Number: 4111 1111 1111 1111
+CVV: Any 3 digits (e.g., 123)
+Expiry: Any future date (e.g., 12/28)
+Name: Any name
 
-### Booking Flow
-- Comprehensive booking form
-- Real-time cost calculation
-- Service address input
-- Booking confirmation
 
-### User Dashboard
-- My Bookings page with status tracking
-- Profile management
-- Booking history
+### Test UPI
+UPI ID: success@intzi
 
-## 🔧 Troubleshooting
 
-### Issue: "Connection failed" error
+**Note:** This is a demo gateway. No real money is processed.
 
+## ⚙️ Configuration Options
+
+### Base URL
+Update in `config.php` if folder name is different:
+define('BASE_URL', 'http://localhost/your_folder_name/');
+
+
+### Payment Settings
+Edit `payment-config.php`:
+define('PAYMENT_SERVICE_FEE', 50); // Platform fee in INR
+
+
+### Email Settings
+For production, configure email notifications in `config.php`.
+
+## 🐛 Troubleshooting
+
+### Issue: "Cannot connect to database"
 **Solution:**
-- Verify XAMPP MySQL is running
-- Check database credentials in `config.php`
-- Ensure database `intzi_db` is created
+1. Verify MySQL is running in XAMPP
+2. Check credentials in `config.php`
+3. Ensure database `intzi_db` exists
+
+### Issue: "Column 'password' doesn't exist"
+**Solution:**
+ALTER TABLE service_providers
+ADD COLUMN email VARCHAR(100) UNIQUE AFTER provider_name,
+ADD COLUMN password VARCHAR(255) AFTER email;
+
+
+### Issue: "Call to undefined function"
+**Solution:**
+Ensure you're using the latest `config.php` with all helper functions.
+
+### Issue: Admin login fails
+**Solution:**
+Run `create-admin.php` to recreate admin account (provided in installation guide).
 
 ### Issue: Styles not loading
-
 **Solution:**
-- All styles are embedded in PHP files (no external CSS)
-- Clear browser cache (Ctrl+F5 or Cmd+Shift+R)
-- Verify file paths are correct
+1. Clear browser cache (Ctrl+F5)
+2. Check BASE_URL in config.php
+3. Verify file paths are correct
 
-### Issue: Images not displaying
+## 🔐 Security Notes
 
-**Solution:**
-- Create `images/providers/` folder in project root
-- Add provider images or use placeholder
-- Check image file names match database entries
+**For Development:**
+- ✅ Password hashing with BCrypt
+- ✅ SQL injection prevention with mysqli_real_escape_string
+- ✅ Session-based authentication
+- ✅ Input sanitization
 
-### Issue: "Cannot modify header" warning
-
-**Solution:**
-- Ensure no output before `<?php` tags
-- Check for extra spaces before/after PHP tags
-- Save files with UTF-8 encoding (no BOM)
-
-### Issue: Login/Registration not working
-
-**Solution:**
-- Verify `users` table exists in database
-- Check PHP session is enabled
-- Clear browser cookies and try again
-
-### Issue: Port 80 or 3306 already in use
-
-**Solution:**
-- Stop other web servers (IIS, other Apache instances)
-- Stop other MySQL instances
-- Change Apache port in XAMPP config
-- Change MySQL port in XAMPP config
+**For Production:**
+- Use prepared statements instead of sanitize()
+- Enable HTTPS
+- Set strong passwords
+- Configure proper file permissions
+- Add CSRF protection
+- Implement rate limiting
+- Use environment variables for sensitive data
 
 ## 🚀 Future Enhancements
 
-- [ ] Payment gateway integration (Razorpay/Stripe)
-- [ ] Real-time chat between users and providers
-- [ ] Mobile application (React Native/Flutter)
-- [ ] Email notifications for bookings
-- [ ] SMS notifications
-- [ ] Advanced analytics dashboard
-- [ ] Provider registration and onboarding
-- [ ] Multi-language support
-- [ ] Admin panel for platform management
-- [ ] Ratings and badges system
-- [ ] Promotional offers and discounts
-- [ ] Geolocation-based provider suggestions
+Potential features to add:
+- Real payment gateway integration (Razorpay/Stripe)
+- Email/SMS notifications
+- Real-time chat between customer and provider
+- Mobile app (React Native/Flutter)
+- Advanced search filters
+- Provider availability calendar
+- Multi-language support
+- Geolocation-based provider search
+- Provider verification badges
+- Subscription plans for premium providers
+- Referral system
+- Coupon/discount codes
+- Provider portfolios (photo galleries)
+- Video call consultations
+- Automated booking reminders
 
-## 🤝 Contributing
+## 📱 Browser Compatibility
 
-Contributions are welcome! Please follow these steps:
+Tested and working on:
+- ✅ Google Chrome 90+
+- ✅ Mozilla Firefox 88+
+- ✅ Microsoft Edge 90+
+- ✅ Safari 14+
+- ✅ Opera 76+
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 📄 License
 
-### Coding Standards
-- Follow PHP PSR-12 coding standards
-- Use meaningful variable and function names
-- Comment complex logic
-- Test thoroughly before submitting
+This project is open-source and available under the MIT License.
 
-## 📝 License
+## 👨‍💻 Developer
 
-This project is licensed under the MIT License - feel free to use it for personal or commercial projects.
+**Project:** Intzi - Hyperlocal Service Platform  
+**Version:** 1.0.0  
+**Developed:** November 2025  
+**Tech Stack:** PHP, MySQL, HTML5, CSS3, JavaScript  
 
-## 👨‍💻 Developer Information
+## 🤝 Support
 
-**Project**: Intzi - Hyperlocal Service Platform  
-**Version**: 1.0.0  
-**Created**: November 2025  
-**Technology Stack**: PHP, MySQL, HTML, CSS, JavaScript  
-**Location**: Hyderabad, Telangana, India
+For issues or questions:
+1. Check the troubleshooting section above
+2. Review database structure in phpMyAdmin
+3. Verify all files are properly uploaded
+4. Check XAMPP error logs
 
-## 📞 Support
+## 📞 Contact
 
-For issues, questions, or suggestions:
-- Create an issue in the repository
-- Email: support@intzi.com
-- Documentation: See this README
+For additional help or custom development:
+- Create test accounts and explore all features
+- Document any bugs with screenshots
+- Suggest improvements and new features
 
-## 🙏 Acknowledgments
+## 🎉 Acknowledgments
 
 - Font Awesome for icons
-- Google Fonts for Poppins typography
-- Inspired by Urban Company and Dunzo platforms
+- Google Fonts for Poppins typeface
 - XAMPP for local development environment
+- Community for inspiration and support
 
 ---
 
-**Made with ❤️ for empowering local communities**
+### Quick Start Commands
+
+Start XAMPP services
+sudo /opt/lampp/lampp start # Linux
+
+or use XAMPP Control Panel on Windows/Mac
+Access Application
+Customer: http://localhost/intzi_db/
+Provider: http://localhost/intzi_db/provider-login.php
+Admin: http://localhost/intzi_db/admin-login.php
+Stop XAMPP
+sudo /opt/lampp/lampp stop # Linux
 
 
+---
 
+**Built with ❤️ for connecting communities with local service providers**
+
+**Status:** ✅ Production Ready for Demo/Presentation
