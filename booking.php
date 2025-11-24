@@ -1,5 +1,6 @@
 <?php 
 require_once 'config.php';
+require_once 'payment-config.php';
 requireLogin();
 
 $provider_id = isset($_GET['provider']) ? (int)$_GET['provider'] : 0;
@@ -21,10 +22,9 @@ if($result->num_rows == 0) {
 }
 
 $provider = $result->fetch_assoc();
-$success = '';
 $error = '';
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_booking'])) {
     $booking_type = sanitize($_POST['booking_type']);
     $booking_date = sanitize($_POST['booking_date']);
     $booking_time = sanitize($_POST['booking_time']);
@@ -32,17 +32,28 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $address = sanitize($_POST['address']);
     $special_requirements = sanitize($_POST['special_requirements']);
     
-    $total_amount = $provider['hourly_rate'] * $duration;
+    $service_fee = PAYMENT_SERVICE_FEE;
+    $subtotal = $provider['hourly_rate'] * $duration;
+    $total_amount = $subtotal + $service_fee;
+    
     $user_id = $_SESSION['user_id'];
     $category_id = $provider['category_id'];
     
+    // Create booking
     $sql = "INSERT INTO bookings (user_id, provider_id, category_id, booking_type, booking_date, booking_time, duration_hours, total_amount, address, special_requirements, booking_status, payment_status) 
             VALUES ($user_id, $provider_id, $category_id, '$booking_type', '$booking_date', '$booking_time', $duration, $total_amount, '$address', '$special_requirements', 'pending', 'pending')";
     
     if($conn->query($sql)) {
         $booking_id = $conn->insert_id;
-        $_SESSION['booking_success'] = "Booking created successfully!";
-        header("Location: my-bookings.php");
+        
+        // Store in session for payment page
+        $_SESSION['booking_id'] = $booking_id;
+        $_SESSION['payment_amount'] = $total_amount;
+        $_SESSION['provider_name'] = $provider['provider_name'];
+        $_SESSION['category_name'] = $provider['category_name'];
+        
+        // Redirect to payment page
+        header("Location: payment.php");
         exit();
     } else {
         $error = "Booking failed. Please try again.";
@@ -320,8 +331,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <textarea name="special_requirements" placeholder="Any special instructions or requirements"></textarea>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary btn-full">
-                            <i class="fas fa-check-circle"></i> Confirm Booking
+                        <button type="submit" name="create_booking" class="btn btn-primary btn-full">
+                            <i class="fas fa-lock"></i> Proceed to Payment
                         </button>
                     </form>
                 </div>
@@ -349,6 +360,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         
                         <div class="summary-item">
+                            <span>Subtotal</span>
+                            <strong id="subtotal">₹<?php echo number_format($provider['hourly_rate'], 2); ?></strong>
+                        </div>
+                        
+                        <div class="summary-item">
                             <span>Service Fee</span>
                             <strong>₹50.00</strong>
                         </div>
@@ -360,22 +376,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         </div>
                         
-                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-light);">
-                            <p><i class="fas fa-info-circle"></i> Payment will be processed after service confirmation</p>
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--text-light); font-size: 0.9rem;">
+                                <i class="fas fa-shield-alt" style="color: var(--success);"></i>
+                                <span>Secure Payment Gateway</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2025 Intzi. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 
     <script>
         const hourlyRate = <?php echo $provider['hourly_rate']; ?>;
@@ -387,6 +398,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             const total = subtotal + serviceFee;
             
             document.getElementById('displayDuration').textContent = duration + (duration === 1 ? ' hour' : ' hours');
+            document.getElementById('subtotal').textContent = '₹' + subtotal.toFixed(2);
             document.getElementById('totalAmount').textContent = '₹' + total.toFixed(2);
         }
         
