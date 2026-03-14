@@ -1,14 +1,17 @@
 <?php
 require_once 'config.php';
 
+
 $conn->query("SET time_zone = '+05:30'");
 date_default_timezone_set('Asia/Kolkata');
+
 
 $token = isset($_GET['token']) ? sanitize($_GET['token']) : '';
 $error = '';
 $success = '';
 $valid_token = false;
 $user = null;
+
 
 if (!empty($token)) {
     $stmt = $conn->prepare("SELECT user_id, 
@@ -26,9 +29,11 @@ if (!empty($token)) {
     }
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $valid_token) {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
+
 
     if (strlen($password) < 6) {
         $error = "Password must be at least 6 characters";
@@ -200,16 +205,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $valid_token) {
             <form method="POST" action="">
                 <div class="form-group">
                     <label><i class="fas fa-lock"></i> New Password</label>
-                    <input type="password" name="password" id="password" required 
-                           placeholder="Enter new password (min 6 characters)"
-                           minlength="6">
+                    <div style="position: relative;">
+                        <input type="password" name="password" id="password" required 
+                               placeholder="Enter new password (min 8 characters)"
+                               minlength="8" style="padding-right: 3rem;">
+                        <button type="button" onclick="togglePassword('password', 'toggleIcon1')"
+                                style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+                                       background: none; border: none; cursor: pointer;
+                                       color: var(--text-light); font-size: 1.1rem; padding: 0;">
+                            <i class="fas fa-eye" id="toggleIcon1"></i>
+                        </button>
+                    </div>
                     <div class="password-strength" id="strength"></div>
                 </div>
 
                 <div class="form-group">
                     <label><i class="fas fa-lock"></i> Confirm Password</label>
-                    <input type="password" name="confirm_password" id="confirm_password" required 
-                           placeholder="Re-enter new password">
+                    <div style="position: relative;">
+                        <input type="password" name="confirm_password" id="confirm_password" required 
+                               placeholder="Re-enter new password" style="padding-right: 3rem;">
+                        <button type="button" onclick="togglePassword('confirm_password', 'toggleIcon2')"
+                                style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+                                       background: none; border: none; cursor: pointer;
+                                       color: var(--text-light); font-size: 1.1rem; padding: 0;">
+                            <i class="fas fa-eye" id="toggleIcon2"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn">
@@ -235,6 +256,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $valid_token) {
     </div>
 
     <script>
+        function togglePassword(fieldId, iconId) {
+            const input = document.getElementById(fieldId);
+            const icon  = document.getElementById(iconId);
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
         // Password strength indicator
         const passwordInput = document.getElementById('password');
         const confirmInput = document.getElementById('confirm_password');
