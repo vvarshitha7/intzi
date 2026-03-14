@@ -5,7 +5,6 @@ requireProviderLogin();
 $provider_id = $_SESSION['provider_id'];
 $filter = isset($_GET['filter']) ? sanitize($_GET['filter']) : 'all';
 
-// Build query based on filter
 $sql = "SELECT b.*, u.full_name, u.phone, u.email 
         FROM bookings b 
         JOIN users u ON b.user_id = u.user_id 
@@ -16,7 +15,6 @@ if($filter != 'all') {
 }
 
 $sql .= " ORDER BY b.created_at DESC";
-
 $bookings_result = $conn->query($sql);
 
 $success = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
@@ -33,7 +31,6 @@ unset($_SESSION['error_message']);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Use same styles as provider-dashboard.php */
         :root {
             --primary-blue: #2563eb;
             --secondary-blue: #1e40af;
@@ -73,9 +70,7 @@ unset($_SESSION['error_message']);
             margin-bottom: 2rem;
         }
 
-        .sidebar-menu {
-            list-style: none;
-        }
+        .sidebar-menu { list-style: none; }
 
         .sidebar-menu a {
             display: flex;
@@ -150,7 +145,7 @@ unset($_SESSION['error_message']);
             font-weight: 600;
         }
 
-        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-pending   { background: #fef3c7; color: #92400e; }
         .status-confirmed { background: #dbeafe; color: #1e40af; }
         .status-completed { background: #d1fae5; color: #065f46; }
         .status-cancelled { background: #fee2e2; color: #991b1b; }
@@ -168,7 +163,7 @@ unset($_SESSION['error_message']);
         }
 
         .btn-success { background: var(--success); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger  { background: var(--danger);  color: white; }
         .btn-primary { background: var(--primary-blue); color: white; }
 
         .alert {
@@ -177,14 +172,12 @@ unset($_SESSION['error_message']);
             margin-bottom: 1.5rem;
         }
 
-        .alert-success {
-            background: #d1fae5;
-            color: #065f46;
-        }
+        .alert-success { background: #d1fae5; color: #065f46; }
+        .alert-error   { background: #fee2e2; color: #991b1b; }
 
-        .alert-error {
-            background: #fee2e2;
-            color: #991b1b;
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; }
         }
     </style>
 </head>
@@ -206,15 +199,15 @@ unset($_SESSION['error_message']);
             <h1 style="margin-bottom: 2rem;">My Bookings</h1>
 
             <?php if($success): ?>
-                <div class="alert alert-success"><?php echo $success; ?></div>
+                <div class="alert alert-success"><i class="fas fa-check-circle"></i> <?php echo $success; ?></div>
             <?php endif; ?>
             <?php if($error): ?>
-                <div class="alert alert-error"><?php echo $error; ?></div>
+                <div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> <?php echo $error; ?></div>
             <?php endif; ?>
 
             <div class="filter-tabs">
-                <a href="?filter=all" class="filter-tab <?php echo $filter == 'all' ? 'active' : ''; ?>">All</a>
-                <a href="?filter=pending" class="filter-tab <?php echo $filter == 'pending' ? 'active' : ''; ?>">Pending</a>
+                <a href="?filter=all"       class="filter-tab <?php echo $filter == 'all'       ? 'active' : ''; ?>">All</a>
+                <a href="?filter=pending"   class="filter-tab <?php echo $filter == 'pending'   ? 'active' : ''; ?>">Pending</a>
                 <a href="?filter=confirmed" class="filter-tab <?php echo $filter == 'confirmed' ? 'active' : ''; ?>">Confirmed</a>
                 <a href="?filter=completed" class="filter-tab <?php echo $filter == 'completed' ? 'active' : ''; ?>">Completed</a>
                 <a href="?filter=cancelled" class="filter-tab <?php echo $filter == 'cancelled' ? 'active' : ''; ?>">Cancelled</a>
@@ -222,7 +215,29 @@ unset($_SESSION['error_message']);
 
             <div class="card">
                 <?php if($bookings_result->num_rows > 0): ?>
-                    <?php while($booking = $bookings_result->fetch_assoc()): ?>
+                    <?php while($booking = $bookings_result->fetch_assoc()):
+
+                        // FIX 1: Calculate duration from start_time and end_time
+                        $duration_text = 'N/A';
+                        if(!empty($booking['start_time']) && !empty($booking['end_time'])) {
+                            $start = new DateTime($booking['start_time']);
+                            $end   = new DateTime($booking['end_time']);
+                            $diff  = $start->diff($end);
+                            $duration_text = '';
+                            if($diff->h > 0) $duration_text .= $diff->h . ' hour' . ($diff->h > 1 ? 's' : '');
+                            if($diff->i > 0) $duration_text .= ($diff->h > 0 ? ' ' : '') . $diff->i . ' min';
+                            if(empty($duration_text)) $duration_text = 'N/A';
+                        }
+
+                        // FIX 2: Build address from individual columns
+                        $address_parts = array_filter([
+                            $booking['house_number'] ?? '',
+                            $booking['street']       ?? '',
+                            $booking['area']         ?? '',
+                            !empty($booking['pincode']) ? 'Hyderabad - ' . $booking['pincode'] : ''
+                        ]);
+                        $full_address = !empty($address_parts) ? implode(', ', $address_parts) : 'No address provided';
+                    ?>
                     <div class="booking-item">
                         <div class="booking-header">
                             <div>
@@ -231,7 +246,7 @@ unset($_SESSION['error_message']);
                                 </strong>
                                 <div><?php echo htmlspecialchars($booking['full_name']); ?></div>
                                 <div style="color: var(--text-light); font-size: 0.9rem;">
-                                    <?php echo $booking['phone']; ?> | <?php echo $booking['email']; ?>
+                                    <?php echo htmlspecialchars($booking['phone']); ?> | <?php echo htmlspecialchars($booking['email']); ?>
                                 </div>
                             </div>
                             <span class="status-badge status-<?php echo $booking['booking_status']; ?>">
@@ -242,13 +257,19 @@ unset($_SESSION['error_message']);
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
                             <div><i class="fas fa-calendar"></i> <?php echo date('M d, Y', strtotime($booking['booking_date'])); ?></div>
                             <div><i class="fas fa-clock"></i> <?php echo date('h:i A', strtotime($booking['booking_time'])); ?></div>
-                            <div><i class="fas fa-hourglass-half"></i> <?php echo $booking['duration_hours']; ?> hours</div>
+                            <div><i class="fas fa-hourglass-half"></i> <?php echo $duration_text; ?></div>
                             <div><i class="fas fa-rupee-sign"></i> ₹<?php echo number_format($booking['total_amount'], 2); ?></div>
                         </div>
 
                         <div style="margin: 1rem 0;">
-                            <strong>Address:</strong> <?php echo htmlspecialchars($booking['address']); ?>
+                            <strong>Address:</strong> <?php echo htmlspecialchars($full_address); ?>
                         </div>
+
+                        <?php if(!empty($booking['special_requests'])): ?>
+                        <div style="margin: 0.5rem 0; color: var(--text-light); font-size: 0.9rem;">
+                            <strong>Special Requests:</strong> <?php echo htmlspecialchars($booking['special_requests']); ?>
+                        </div>
+                        <?php endif; ?>
 
                         <?php if($booking['booking_status'] == 'pending'): ?>
                         <div style="display: flex; gap: 1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
