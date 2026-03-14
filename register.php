@@ -2,8 +2,10 @@
 require_once 'config.php';
 require_once 'hyderabad-data.php';
 
+
 $error = '';
 $success = '';
+
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $full_name = sanitize($_POST['full_name']);
@@ -216,12 +218,32 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-row">
                 <div class="form-group">
                     <label><i class="fas fa-lock"></i> Password *</label>
-                    <input type="password" name="password" required minlength="8" placeholder="Min 8 characters">
+                    <div style="position: relative;">
+                        <input type="password" name="password" id="password" required 
+                               minlength="8" placeholder="Min 8 characters"
+                               style="padding-right: 3rem;">
+                        <button type="button" onclick="togglePassword('password', 'toggleIcon1')"
+                                style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+                                       background: none; border: none; cursor: pointer;
+                                       color: var(--text-light); font-size: 1.1rem; padding: 0;">
+                            <i class="fas fa-eye" id="toggleIcon1"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label><i class="fas fa-lock"></i> Confirm Password *</label>
-                    <input type="password" name="confirm_password" required placeholder="Re-enter password">
+                    <div style="position: relative;">
+                        <input type="password" name="confirm_password" id="confirm_password" required 
+                               placeholder="Re-enter password"
+                               style="padding-right: 3rem;">
+                        <button type="button" onclick="togglePassword('confirm_password', 'toggleIcon2')"
+                                style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+                                       background: none; border: none; cursor: pointer;
+                                       color: var(--text-light); font-size: 1.1rem; padding: 0;">
+                            <i class="fas fa-eye" id="toggleIcon2"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -252,6 +274,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <script>
+        function togglePassword(fieldId, iconId) {
+            const input = document.getElementById(fieldId);
+            const icon  = document.getElementById(iconId);
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
         function updatePincode(selectedArea) {
             const areaSelect = document.getElementById('area');
             const pincodeInput = document.getElementById('pincode');
