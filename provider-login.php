@@ -1,13 +1,16 @@
 <?php 
 require_once 'config.php';
 
+
 $error = '';
 $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : 'provider-dashboard.php';
+
 
 if(isProviderLoggedIn()) {
     header("Location: " . $redirect);
     exit();
 }
+
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = sanitize($_POST['email']);
@@ -193,11 +196,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             <div class="form-group">
                 <label><i class="fas fa-lock"></i> Password</label>
-                <input type="password" name="password" required placeholder="Enter password">
+                <div style="position: relative;">
+                    <input type="password" name="password" id="password" required
+                           placeholder="Enter password" style="padding-right: 3rem;">
+                    <button type="button" onclick="togglePassword()"
+                            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+                                   background: none; border: none; cursor: pointer;
+                                   color: var(--text-light); font-size: 1.1rem; padding: 0;">
+                        <i class="fas fa-eye" id="toggleIcon"></i>
+                    </button>
+                </div>
             </div>
 
             <div style="text-align: right; margin-bottom: 1rem;">
-                 <a href="provider-forgot-password.php" style="color: var(--primary-blue); font-size: 0.9rem;">Forgot Password?</a>
+                <a href="provider-forgot-password.php" style="color: var(--primary-blue); font-size: 0.9rem;">Forgot Password?</a>
             </div>
             
             <button type="submit" class="btn btn-primary">
@@ -210,5 +222,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <a href="index.php">Back to Customer Site</a>
         </div>
     </div>
+
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon  = document.getElementById('toggleIcon');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
 </body>
 </html>
