@@ -2,8 +2,10 @@
 require_once 'config.php';
 require_once 'hyderabad-data.php';
 
+
 $error = '';
 $success = '';
+
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $provider_name = sanitize($_POST['provider_name']);
@@ -67,6 +69,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
+
 
 // Get categories for dropdown
 $categories = $conn->query("SELECT * FROM service_categories ORDER BY category_name");
@@ -265,7 +268,17 @@ $categories = $conn->query("SELECT * FROM service_categories ORDER BY category_n
 
                 <div class="form-group">
                     <label><i class="fas fa-lock"></i> Password *</label>
-                    <input type="password" name="password" required minlength="8" placeholder="Min 8 characters">
+                    <div style="position: relative;">
+                        <input type="password" name="password" id="password" required
+                               minlength="8" placeholder="Min 8 characters"
+                               style="padding-right: 3rem;">
+                        <button type="button" onclick="togglePassword('password', 'toggleIcon')"
+                                style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+                                       background: none; border: none; cursor: pointer;
+                                       color: var(--text-light); font-size: 1.1rem; padding: 0;">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -336,6 +349,19 @@ $categories = $conn->query("SELECT * FROM service_categories ORDER BY category_n
     </div>
 
     <script>
+        function togglePassword(fieldId, iconId) {
+            const input = document.getElementById(fieldId);
+            const icon  = document.getElementById(iconId);
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
         // Image preview
         document.getElementById('profile_image').addEventListener('change', function(e) {
             const file = e.target.files[0];
